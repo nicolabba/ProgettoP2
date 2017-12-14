@@ -4,7 +4,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    stringa.cpp
+    stringa.cpp \
+    colore.cpp
 
 HEADERS += \
-    stringa.h
+    stringa.h \
+    colore.h
