@@ -38,4 +38,27 @@ public:
     void setBlue(int amount);
 };
 
+class ColoreXYZ : public Colore
+{
+private:
+    double x,y,z;
+    bool checkType(const Colore &c) const;
+public:
+    ColoreXYZ();
+    ColoreXYZ(double _x,double _y,double _z);
+    ColoreXYZ(const Colore& c);
+    void add(const Colore& c);
+    void remove(const Colore& c);
+    void media(const Colore& c);
+    ColoreXYZ operator+(const Colore& c) const;
+    ColoreXYZ operator-(const Colore& c) const;
+    ColoreXYZ operator/(const Colore& c) const;
+    bool operator==(const Colore& c) const;
+    double getX() const;
+    double getY() const;
+    double getZ() const;
+    void setX(double amount);
+    void setY(double amount);
+    void setZ(double amount);
+}
 #endif // COLORE_H
