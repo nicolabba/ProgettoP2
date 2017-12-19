@@ -34,7 +34,7 @@ Punto& Grafico::operator [](const int& i) const
     return idp->at(i);
 }
 
-long Grafico::getLength() const
+long Grafico::size() const
 {
     return idp -> size();
 }

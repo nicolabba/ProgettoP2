@@ -22,7 +22,7 @@ public:
     void insert(int x, int y);
 
     long getArea() const;
-    long getLength() const;
+    long size() const;
 };
 
 #endif // GRAFICO_H

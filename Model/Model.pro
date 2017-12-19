@@ -5,8 +5,12 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     stringa.cpp \
-    colore.cpp
+    colore.cpp \
+    punto.cpp \
+    grafico.cpp
 
 HEADERS += \
     stringa.h \
-    colore.h
+    colore.h \
+    punto.h \
+    grafico.h

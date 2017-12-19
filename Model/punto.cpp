@@ -32,7 +32,7 @@ int Punto::getDistance(const Punto& p1, const Punto& p2) const
 
 Punto& Punto::getLocation() const
 {
-    return Punto(x,y);
+    return new Punto(x,y);
 }
 
 void Punto::setLocation(int _x = 0, int _y = 0)
