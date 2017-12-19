@@ -25,6 +25,11 @@ int Punto::getDistance(const Punto& p) const
     return sqrt(pow(x - p.x,2) + pow(y - p.y,2));
 }
 
+int Punto::getDistance(const Punto& p1, const Punto& p2) const
+{
+    return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
+}
+
 Punto& Punto::getLocation() const
 {
     return Punto(x,y);
