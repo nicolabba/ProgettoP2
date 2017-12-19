@@ -14,8 +14,9 @@ public:
     int getX() const;
     int getY() const;
 
-    int getDistance(Punto) const; // distanza tra due punti
-
+    int getDistance(const Punto&) const; // distanza tra due punti
+    int getDistance(const Punto&, const Punto&) const;
+    
     Punto getLocation() const;
     void setLocation(int, int);
 };
