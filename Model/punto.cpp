@@ -20,12 +20,12 @@ int Punto::getY() const
     return y;
 }
 
-int Punto::getDistance(Punto p) const
+int Punto::getDistance(const Punto& p) const
 {
     return sqrt(pow(x - p.x,2) + pow(y - p.y,2));
 }
 
-Punto Punto::getLocation() const
+Punto& Punto::getLocation() const
 {
     return Punto(x,y);
 }
