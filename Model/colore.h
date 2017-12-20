@@ -19,6 +19,8 @@ class ColoreRGB : public Colore
 private:
     unsigned int red,green,blue;
     bool checkType(const Colore &c) const;
+    ColoreXYZ toXYZ() const;
+    ColoreCMY toCMY() const;
 public:
     ColoreRGB();
     ColoreRGB(int _red,int _green,int _blue);
@@ -41,11 +43,13 @@ public:
 class ColoreXYZ : public Colore
 {
 private:
-    double x,y,z;
+    unsigned double x,y,z;
     bool checkType(const Colore &c) const;
+    ColoreRGB toRGB() const;
+    ColoreCMY toCMY() const;
 public:
     ColoreXYZ();
-    ColoreXYZ(double _x,double _y,double _z);
+    ColoreXYZ(unsigned double _x,unsigned double _y,unsigned double _z);
     ColoreXYZ(const Colore& c);
     void add(const Colore& c);
     void remove(const Colore& c);
@@ -54,11 +58,36 @@ public:
     ColoreXYZ operator-(const Colore& c) const;
     ColoreXYZ operator/(const Colore& c) const;
     bool operator==(const Colore& c) const;
-    double getX() const;
-    double getY() const;
-    double getZ() const;
-    void setX(double amount);
-    void setY(double amount);
-    void setZ(double amount);
-}
+    unsigned double getX() const;
+    unsigned double getY() const;
+    unsigned double getZ() const;
+    void setX(unsigned double amount);
+    void setY(unsigned double amount);
+    void setZ(unsigned double amount);
+};
+
+class ColoreCMY : public Colore
+{
+private:
+    unsigned int cyan, magenta, yellow;
+    bool checkType(const Colore &c) const;
+    ColoreRGB toRGB() const;
+public:
+    ColoreCMY();
+    ColoreCMY(unsigned int c,unsigned int m,unsigned int y);
+    ColoreCMY(const Colore& c);
+    void add(const Colore& c);
+    void remove(const Colore& c);
+    void media(const Colore& c);
+    ColoreCMY operator+(const Colore& c) const;
+    ColoreCMY operator-(const Colore& c) const;
+    ColoreCMY operator/(const Colore& c) const;
+    bool operator==(const Colore& c) const;
+    unsigned int getCyan() const;
+    unsigned int getMagenta() const;
+    unsigned int getYellow() const;
+    void setCyan(unsigned int amount);
+    void setMagenta(unsigned int amount);
+    void setYellow(unsigned int amount);
+};
 #endif // COLORE_H
