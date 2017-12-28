@@ -2,24 +2,25 @@
 #define GRAFICO_H
 #include <vector>
 #include <punto.h>
+#include <list>
 
 using std::vector;
+using std::list;
 
 class Grafico
 {
 private:
-    vector<Punto>* idp;
+    list<Punto>* idp;
 
 public:
     Grafico();
-    Grafico(vector<Punto>*);
+    Grafico(list<Punto>*);
     Grafico(const Grafico&);
     ~Grafico();
     Grafico& operator=(const Grafico&);
-    Punto& operator[](const int&) const;
-    void remove(int x, int y);
-    int search(int x, int y) const;
-    void insert(int x, int y);
+    void remove(const Punto&);
+    bool search(const Punto&) const;
+    void insert(const Punto&);
 
     long getArea() const;
     long size() const;
