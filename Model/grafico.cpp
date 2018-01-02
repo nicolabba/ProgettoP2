@@ -1,9 +1,8 @@
 #include "grafico.h"
-#include <algorithm>
 
 //MEMO: ricorda di cambiare idp con pointCollection
 
-Grafico::Grafico() : idp(new list<Punto>())
+Grafico::Grafico() : idp(new vector<Punto>())
 {
 
 }
@@ -18,10 +17,9 @@ Grafico& Grafico::operator=(const Grafico& g)
     if(this != &g)
     {
         delete idp;
-        idp = new list<Punto>();
-        list<Punto>::iterator it;
-        for(it = g.idp->begin(); it != g.idp->end(); ++it)
-            idp->push_back(*it);;
+        idp = new vector<Punto>();
+        for(unsigned int i = 0; i < g.idp -> size(); i++)
+            idp -> push_back(g.idp->at(i));
     }
     return *this;
 }
@@ -31,36 +29,42 @@ Grafico::~Grafico()
     delete idp;
 }
 
-long Grafico::size() const
+Punto& Grafico::operator [](const int& i) const
+{
+    return idp->at(i);
+}
+
+long Grafico::getLength() const
 {
     return idp -> size();
 }
 
-bool Grafico::search(const Punto& p) const
+int Grafico::search(int x, int y) const
 {
-    /*
-    questo metodo va bene ma secondo me è migliorabile
-    perchè alla fine parliamo di una lista ordinata
-    quindi in teoria possiamo fare binary search
-*/
-    auto it = std::find(idp->begin(),idp->end(),p); //find ritorna p se lo trova altrimenti ritorna idp->end()
-    return *it == p;
+    Punto p(x,y);
+    unsigned int tmp = 0;
+    while(tmp < idp -> size() && !(idp->at(tmp) == p)) tmp++;
+    if(tmp < idp -> size()) return tmp;
+    return -1;
 }
 
-void Grafico::insert(const Punto& p)
-{    
-    if(search(p))
+void Grafico::insert(int x, int y)
+{
+    int res = search(x,y);
+    if(res != -1)
     {
-        list<Punto>::iterator it = idp->begin();
-        while(it != idp->end() && p.getX() < it->getX()) it++;
-        idp->insert(it,p); // it dovrebbe puntare alla posizione giusta in ogni caso
+        Punto p(x,y);
+        idp -> push_back(x);
     }
 }
 
-void Grafico::remove(const Punto& p)
+void Grafico::remove(int x, int y)
 {
-    if(search(p))
-        idp->remove(p);
+    int res = search(x,y);
+    if(res != -1)
+    {
+        idp ->erase(idp->begin() + res);
+    }
 }
 
 long Grafico::getArea() const
