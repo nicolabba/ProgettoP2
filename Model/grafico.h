@@ -11,7 +11,9 @@ class Grafico
 {
 private:
     list<Punto>* idp;
-
+    static long getPartialArea(const Punto&, const Punto&);
+    static long getAreaTri(const Punto&, const Punto&);
+    static long getAreaRet(const Punto&, const Punto&);
 public:
     Grafico();
     Grafico(list<Punto>*);

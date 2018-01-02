@@ -1,8 +1,9 @@
 #include "grafico.h"
+#include <algorithm>
 
 //MEMO: ricorda di cambiare idp con pointCollection
 
-Grafico::Grafico() : idp(new vector<Punto>())
+Grafico::Grafico() : idp(new list<Punto>())
 {
 
 }
@@ -17,9 +18,10 @@ Grafico& Grafico::operator=(const Grafico& g)
     if(this != &g)
     {
         delete idp;
-        idp = new vector<Punto>();
-        for(unsigned int i = 0; i < g.idp -> size(); i++)
-            idp -> push_back(g.idp->at(i));
+        idp = new list<Punto>();
+        list<Punto>::iterator it;
+        for(it = g.idp->begin(); it != g.idp->end(); ++it)
+            idp->push_back(*it);;
     }
     return *this;
 }
@@ -29,46 +31,66 @@ Grafico::~Grafico()
     delete idp;
 }
 
-Punto& Grafico::operator [](const int& i) const
-{
-    return idp->at(i);
-}
-
-long Grafico::getLength() const
+long Grafico::size() const
 {
     return idp -> size();
 }
 
-int Grafico::search(int x, int y) const
+bool Grafico::search(const Punto& p) const
 {
-    Punto p(x,y);
-    unsigned int tmp = 0;
-    while(tmp < idp -> size() && !(idp->at(tmp) == p)) tmp++;
-    if(tmp < idp -> size()) return tmp;
-    return -1;
+    /*
+    questo metodo va bene ma secondo me è migliorabile
+    perchè alla fine parliamo di una lista ordinata
+    quindi in teoria possiamo fare binary search
+*/
+    auto it = std::find(idp->begin(),idp->end(),p); //find ritorna p se lo trova altrimenti ritorna idp->end()
+    return *it == p;
 }
 
-void Grafico::insert(int x, int y)
-{
-    int res = search(x,y);
-    if(res != -1)
-    {
-        Punto p(x,y);
-        idp -> push_back(x);
+void Grafico::insert(const Punto& p)
+{    
+    if(!search(p))
+    {        
+        list<Punto>::iterator it = idp->begin();
+        while(it != idp->end() && p.getX() > it->getX()) it++;
+        idp->insert(it,p); // it dovrebbe puntare alla posizione giusta in ogni caso
     }
 }
 
-void Grafico::remove(int x, int y)
+void Grafico::remove(const Punto& p)
 {
-    int res = search(x,y);
-    if(res != -1)
-    {
-        idp ->erase(idp->begin() + res);
-    }
+    if(search(p))
+        idp->remove(p);
+}
+
+long Grafico::getAreaTri(const Punto & p1, const Punto & p2)
+{
+    Punto p3(p2.getX(), p1.getY());
+    long base = p3.getDistance(p1);
+    long altezza = p3.getDistance(p2);
+    return (base * altezza)/2;
+}
+
+long Grafico::getAreaRet(const Punto & p1, const Punto & p2)
+{
+    return (p2.getX() - p1.getX()) * p1.getY();
+}
+
+long Grafico::getPartialArea(const Punto & p1, const Punto & p2)
+{
+    return getAreaTri(p1,p2) + getAreaRet(p1,p2);
 }
 
 long Grafico::getArea() const
 {
-    //MANCA L' AREA PERCHE' E' UN CASINO
-    return 0;
+    long area = 0;
+    int i = 0;
+    auto it = idp->begin();
+    while(i < size() -1)
+    {
+        area += getPartialArea(*it,*(std::next(it,1)));
+        it++;
+        i++;
+    }
+    return area;
 }
