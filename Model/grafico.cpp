@@ -66,9 +66,7 @@ void Grafico::remove(const Punto& p)
 long Grafico::getAreaTri(const Punto & p1, const Punto & p2)
 {
     Punto p3(p2.getX(), p1.getY());
-    long base = p3.getDistance(p1);
-    long altezza = p3.getDistance(p2);
-    return (base * altezza)/2;
+    return (p3.getDistance(p1) * p3.getDistance(p2))/2;
 }
 
 long Grafico::getAreaRet(const Punto & p1, const Punto & p2)
