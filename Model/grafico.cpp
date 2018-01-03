@@ -65,13 +65,13 @@ void Grafico::remove(const Punto& p)
 
 long Grafico::getAreaTri(const Punto & p1, const Punto & p2)
 {
-    Punto p3(p2.getX(), p1.getY());
+    Punto p3 = p1.getY()<p2.getY()?Punto(p1.getX(),p2.getY()):Punto(p2.getX(),p1.getY());
     return (p3.getDistance(p1) * p3.getDistance(p2))/2;
 }
 
 long Grafico::getAreaRet(const Punto & p1, const Punto & p2)
 {
-    return (p2.getX() - p1.getX()) * p1.getY();
+    return (p2.getX() - p1.getX()) * (p1.getY()<p2.getY()?p1.getY():p2.getY());
 }
 
 long Grafico::getPartialArea(const Punto & p1, const Punto & p2)
