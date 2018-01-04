@@ -1,10 +1,8 @@
 #ifndef GRAFICO_H
 #define GRAFICO_H
-#include <vector>
 #include <punto.h>
 #include <list>
 
-using std::vector;
 using std::list;
 
 class Grafico
