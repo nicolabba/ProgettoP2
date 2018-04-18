@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QPushButton* addButton = new QPushButton("+",this);
     addButton->setToolTip("Aggiungi una riga di input");
-    addButton->setStyleSheet("QPushButton{width:30; color:green; background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 lightgreen, stop:1 white); border:none; margin-right:6}QToolTip{border:none; background-color:#f0f0f0}");
+    addButton->setStyleSheet("QPushButton{width:30; color:green; background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 lightgreen, stop:1 white); border:none;}QToolTip{border:none; background-color:#f0f0f0}");
     connect(addButton,SIGNAL(pressed()),this,SLOT(addInput()));
     layout->addWidget(addButton,0,Qt::AlignTop|Qt::AlignRight);
 
@@ -65,24 +65,24 @@ MainWindow::MainWindow(QWidget *parent) :
     hashButton->setStyleSheet(opStyleSheet);
     splitButton->setStyleSheet(opStyleSheet);
     dupButton->setStyleSheet(opStyleSheet);
-    opLayout->addStretch(1);
-    opLayout->addSpacing(100);
-    opLayout->addWidget(appendButton,0,Qt::AlignCenter);
-    opLayout->addWidget(removeButton,0,Qt::AlignCenter);
-    opLayout->addWidget(searchButton,0,Qt::AlignCenter);
-    opLayout->addWidget(splitButton,0,Qt::AlignCenter);
-    opLayout->addWidget(hashButton,0,Qt::AlignCenter);
-    opLayout->addWidget(remInpButton,0,Qt::AlignCenter);
-    opLayout->addWidget(dupButton,0,Qt::AlignCenter);
-    opLayout->addSpacing(100);
-    opLayout->addStretch(1);
+//    opLayout->addStretch(1);
+//    opLayout->addSpacing(100);
+    opLayout->addWidget(appendButton,1);
+    opLayout->addWidget(removeButton,1);
+    opLayout->addWidget(searchButton,1);
+    opLayout->addWidget(splitButton,1);
+    opLayout->addWidget(hashButton,1);
+    opLayout->addWidget(remInpButton,1);
+    opLayout->addWidget(dupButton,1);
+//    opLayout->addSpacing(100);
+//    opLayout->addStretch(1);
 
 
     QLineEdit* opLine = new QLineEdit(this);
     opInput = Stringa();
     connect(opLine,SIGNAL(textEdited(QString)),this,SLOT(editOpInput(QString)));
     opLine->setStyleSheet("height: 30px; width: 234px; border: none; selection-background-color:darkgray; background-color: #c6ffac; margin-top:5px");
-    layout->addWidget(opLine,0,Qt::AlignCenter | Qt::AlignHCenter);
+    layout->addWidget(opLine,0);//,Qt::AlignCenter | Qt::AlignHCenter);
     //layout->addStretch(1);
 
     setLayout(layout);
