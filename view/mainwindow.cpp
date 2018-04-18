@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <QPushButton>
 #include <QScrollBar>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent)
@@ -9,14 +10,18 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowFlags( Qt::WindowTitleHint |  Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     QVBoxLayout* layout = new QVBoxLayout();
     QHBoxLayout* opLayout = new QHBoxLayout();
+
     inpCont = new QScrollArea(this);
     inp = new Inputs(inpCont);
     inpCont->setWidget(inp);
     inpCont->setWidgetResizable(true);
-    inpCont->setStyleSheet("border:none;");
+    inpCont->setStyleSheet("border:none");
     inpCont->verticalScrollBar()->setStyleSheet("QScrollBar,QScrollBar::up-arrow,QScrollBar::down-arrow,QScrollBar::add-line,QScrollBar::sub-line{background:#e8e8e8; border:none;} QScrollBar::handle{background:#86ff86;border:none;}");
     layout->setSpacing(0);
     opLayout->setSpacing(4);
+
+    QLabel* lblInput = new QLabel("Stringhe:",this);
+    layout->addWidget(lblInput,0,Qt::AlignCenter);
 
     layout->addWidget(inpCont);
     stringhe = QList<Stringa*>();
@@ -96,7 +101,8 @@ void MainWindow::updateStoredData(int index, QString value,bool active)
 }
 void MainWindow::refreshSize()
 {
-    this->setFixedHeight(122 + (stringhe.size()<10?stringhe.size() : 10 )* 37);
+    //start with 122 without label
+    this->setFixedHeight(139 + (stringhe.size()<10?stringhe.size() : 10 )* 37);
 }
 void MainWindow::addInput()
 {

@@ -31,7 +31,8 @@ SOURCES += \
     punto.cpp \
     grafico.cpp \
     inputline.cpp \
-    inputs.cpp
+    inputs.cpp \
+    mycheckbox.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,6 +41,7 @@ HEADERS += \
     punto.h \
     grafico.h \
     inputline.h \
-    inputs.h
+    inputs.h \
+    mycheckbox.h
 
 FORMS +=

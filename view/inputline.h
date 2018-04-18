@@ -4,14 +4,14 @@
 #include <QWidget>
 #include "stringa.h"
 #include <QLineEdit>
-#include <QCheckBox>
+#include "mycheckbox.h"
 
 class InputLine : public QWidget
 {
     Q_OBJECT
 private:
     QLineEdit* input;
-    QCheckBox* check;
+    myCheckBox* check;
 public:
     explicit InputLine(QWidget *parent = 0);
     ~InputLine();
@@ -23,7 +23,7 @@ signals:
     void changeVal(QString s);
     void changeActive(bool act);
 private slots:
-    void changeActivation(int i);
+    void changeActivation(bool act);
 public slots:
     void setSelection(int start, int length);
 };
