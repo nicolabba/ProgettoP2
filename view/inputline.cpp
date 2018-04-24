@@ -7,7 +7,7 @@ InputLine::InputLine(QWidget *parent) :
     check = new myCheckBox(this);
     check->setChecked(true);
 
-    input->setStyleSheet("height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc; ");
+    input->setStyleSheet("height: 30px; border: none; selection-background-color:darkgray; background-color: #c6ffac;");
     connect(input,SIGNAL(textEdited(QString)),this,SIGNAL(valueChanged(QString)));
     connect(check,SIGNAL(stateChanged(bool)), this, SLOT(changeActivation(bool)));
     connect(this,SIGNAL(changeActive(bool)),check,SLOT(setChecked(bool)));
@@ -21,6 +21,11 @@ InputLine::InputLine(QWidget *parent) :
 }
 void InputLine::changeActivation(bool act)
 {
+    if(act)
+        input->setStyleSheet("height: 30px; border: none; selection-background-color:darkgray; background-color: #c6ffac;");
+    else
+        input->setStyleSheet("height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc; ");
+
     emit activeChanged(act);
 }
 QString InputLine::getValue()
