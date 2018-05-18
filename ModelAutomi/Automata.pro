@@ -5,17 +5,20 @@ CONFIG -= qt
 
 SOURCES += \
         main.cpp \
-    transizione.cpp \
-    stato.cpp \
-    transizionepda.cpp \
     abstractautoma.cpp \
     dfa.cpp \
-    nfa.cpp
+    nfa.cpp \
+    stato.cpp \
+    transizione.cpp \
+    transizionepda.cpp
 
 HEADERS += \
-    transizione.h \
-    stato.h \
-    transizionepda.h \
     abstractautoma.h \
     dfa.h \
-    nfa.h
+    nfa.h \
+    stato.h \
+    transizione.h \
+    transizionepda.h
+
+DISTFILES += \
+    Memo

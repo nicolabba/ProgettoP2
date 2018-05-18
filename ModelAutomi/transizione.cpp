@@ -1,10 +1,5 @@
 #include "transizione.h"
 
-bool Transizione::isNull()
-{
-    return (dest==nullptr && input == '\0');
-}
-
 Stato *Transizione::getDest()
 {
     return dest;

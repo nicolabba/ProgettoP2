@@ -1,0 +1,12 @@
+#NFA
+Chiusure deve utilizzare ed essere solo puntatori
+
+#TUTTO
+Aggiungere distruttori
+
+#STATO
+Trans deve essere e usare puntatori
+
+#ABSTRACT AUTOMA
+Stati deve essere e usare puntatori
+Verificare correttezza

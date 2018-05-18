@@ -10,7 +10,6 @@ private:
     Stato* dest;
     char input;
 public:
-    bool isNull();
     Transizione(Stato* s, char i);
     Stato* getDest();
     char getInput();

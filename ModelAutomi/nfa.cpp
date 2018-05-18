@@ -25,7 +25,7 @@ void supportChiusure(std::list<std::string> & curr, Stato* s)
 void NFA::updateChiusure()
 {
     std::list<std::string> curr;
-    chiusure = std::list<std::list<std::string>>();
+    chiusure.clear();
     for (std::list<Stato>::iterator i = stati.begin(); i != stati.end(); i++)
     {
         curr = std::list<std::string>();
@@ -35,8 +35,9 @@ void NFA::updateChiusure()
     }
 }
 
-NFA::NFA():AbstractAutoma()
+NFA::NFA()
 {
+    chiusure = std::list<std::list<std::string>>();
 }
 
 bool NFA::start(std::string input)
