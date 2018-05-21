@@ -8,7 +8,7 @@ Stato::Stato(std::string n):nome(n),finale(false)
 Transizione* Stato::getTrans(Stato* s, char i)
 {
     unsigned int j = 0;
-    while(j<trans.size() && trans[j].getDest() != s && trans[j].getInput() != i)
+    while(j<trans.size() && (trans[j].getDest() != s || trans[j].getInput() != i))
         j++;
     if(j == trans.size())
         return nullptr;

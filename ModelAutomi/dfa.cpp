@@ -1,4 +1,5 @@
 #include "dfa.h"
+#include <iostream>
 
 std::string DFA::getAlfabeto() const
 {
@@ -20,17 +21,17 @@ DFA::DFA(const std::string &alfabeto): alfabeto(alfabeto)
 
 bool DFA::checkAlfa(Stato* s)
 {
-    int *controllo = new int[alfabeto.length()];
+    std::vector<int> controllo = std::vector<int>(alfabeto.length());
     int pos;
     for(int i = 0; i < s->nTrans(); i++)
     {
-        pos = alfabeto.find((*s)[i]);
+        pos = alfabeto.find((*s)[i]->getInput());
         if(pos != -1)
             controllo[pos] ++;
         else
             return false;
     }
-    for (int i = 0; i < alfabeto.length(); i++)
+    for (unsigned int i = 0; i < alfabeto.length(); i++)
     {
         if(controllo[i] != 1)
             return false;
@@ -47,14 +48,15 @@ bool DFA::check(Stato *s, const std::string &input)
             if((*s)[i]->getInput() == input[0])
                 return check((*s)[i]->getDest(), input.substr(1,input.length()-1));
         }
+        return false;
     }
-    if(s->finale)
+    if(s->isFinale())
         return true;
     else
         return false;
 }
 
-bool DFA::start(std::string)
+bool DFA::start(std::string input)
 {
     for(std::list<Stato>::iterator i = stati.begin(); i!= stati.end(); i++)
     {
