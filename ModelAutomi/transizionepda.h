@@ -9,7 +9,9 @@ private:
     char head;
     char newHead[2];
 public:
-    TransizionePDA(Stato *,char,char,char[2]);
+    TransizionePDA(StatoPDA *,char,char,char[2]);
+    char getHead();
+    char[2] getNewHead();
 };
 
 #endif // TRANSIZIONEPDA_H
