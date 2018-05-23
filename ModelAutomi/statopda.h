@@ -1,28 +1,23 @@
 #ifndef STATOPDA_H
 #define STATOPDA_H
 
+#include "stato.h"
 #include <vector>
 #include <string>
 #include "transizionepda.h"
 
 class TransizionePDA;
-
-class StatoPDA
+class StatoPDA : public Stato
 {
 private:
-  std::string nome;
-  bool finale;
-  std::vector<TransizionePDA> trans;
+    std::vector<TransizionePDA> trans;
 public:
-    StatoPDA(const std::string &n);
-    void add(StatoPDA*, char, char, char[2]);
-    void remove(StatoPDA*,char, char, char[2]);
-    Transizione *getTrans(Stato*, char, char, char[2]);
+    StatoPDA(const std::string &, const bool& = false);
+    Transizione *getTrans(StatoPDA*, const char&,const char&,char[2]);
+    void add(StatoPDA*, const char&, const char&, char[2]);
+    void remove(StatoPDA*,const char&, const char&, char[2]);
     int nTrans();
-    Transizione* operator[](int);
-    std::string getNome();
-    bool isFinale();
-    void setFinale(bool);
+    Transizione *operator [](int);
 };
 
-#endif // STATO_H
+#endif // STATOPDA_H

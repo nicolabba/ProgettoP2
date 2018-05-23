@@ -26,7 +26,7 @@ void NFA::updateChiusure()
 {
     std::list<std::string> curr;
     chiusure.clear();
-    for (std::list<Stato>::iterator i = stati.begin(); i != stati.end(); i++)
+    for (std::list<StatoFA>::iterator i = stati.begin(); i != stati.end(); i++)
     {
         curr = std::list<std::string>();
         curr.push_back(i->getNome());
@@ -35,23 +35,9 @@ void NFA::updateChiusure()
     }
 }
 
-NFA::NFA()
+bool NFA::check(StatoFA* s, std::string input)
 {
-    chiusure = std::list<std::list<std::string>>();
-}
-
-bool NFA::start(std::string input)
-{
-    updateChiusure();
-    if(partenza)
-        return check(partenza, input);
-    else
-        return false;
-}
-
-bool NFA::check(Stato* s, std::string input)
-{
-    std::list<Stato> chiusuraCorr = std::list<Stato>();
+    std::list<StatoFA> chiusuraCorr = std::list<StatoFA>();
     for(std::list<std::list<std::string>>::iterator i = chiusure.begin(); i != chiusure.end(); i++)
     {
         if(i->front() == s->getNome())
@@ -64,7 +50,7 @@ bool NFA::check(Stato* s, std::string input)
     }
     if(input.length() == 0)
     {
-        for(std::list<Stato>::iterator i = chiusuraCorr.begin(); i != chiusuraCorr.end(); i++)
+        for(std::list<StatoFA>::iterator i = chiusuraCorr.begin(); i != chiusuraCorr.end(); i++)
         {
             if(i->isFinale())
                 return true;
@@ -72,13 +58,13 @@ bool NFA::check(Stato* s, std::string input)
     }
     else
     {
-        for(std::list<Stato>::iterator i = chiusuraCorr.begin(); i != chiusuraCorr.end(); i++)
+        for(std::list<StatoFA>::iterator i = chiusuraCorr.begin(); i != chiusuraCorr.end(); i++)
         {
             for(int t = 0; t < i->nTrans(); t++)
             {
                 if((*i)[t]->getInput() == input[0])
                 {
-                    if(check((*i)[t]->getDest(),input.substr(1,input.length()-1)))
+                    if(check(dynamic_cast<StatoFA*>((*i)[t]->getDest()),input.substr(1,input.length()-1)))
                         return true;
                 }
             }
@@ -86,3 +72,19 @@ bool NFA::check(Stato* s, std::string input)
     }
     return false;
 }
+
+NFA::NFA(StatoFA * partenza):FA(partenza)
+{
+    chiusure = std::list<std::list<std::string>>();
+}
+
+bool NFA::start(const std::string& input)
+{
+    updateChiusure();
+    if(partenza)
+        return check(dynamic_cast<StatoFA*>(partenza), input);
+    else
+        return false;
+}
+
+

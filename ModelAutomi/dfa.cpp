@@ -1,23 +1,4 @@
 #include "dfa.h"
-#include <iostream>
-
-std::string DFA::getAlfabeto() const
-{
-    return alfabeto;
-}
-
-void DFA::setAlfabeto(const std::string &alfabeto)
-{
-    this->alfabeto = alfabeto;
-}
-
-DFA::DFA():alfabeto("")
-{
-}
-
-DFA::DFA(const std::string &alfabeto): alfabeto(alfabeto)
-{
-}
 
 bool DFA::checkAlfa(Stato* s)
 {
@@ -56,9 +37,23 @@ bool DFA::check(Stato *s, const std::string &input)
         return false;
 }
 
-bool DFA::start(std::string input)
+DFA::DFA(const std::string &alfabeto, StatoFA* partenza): FA(partenza), alfabeto(alfabeto)
 {
-    for(std::list<Stato>::iterator i = stati.begin(); i!= stati.end(); i++)
+}
+
+std::string DFA::getAlfabeto() const
+{
+    return alfabeto;
+}
+
+void DFA::setAlfabeto(const std::string &alfabeto)
+{
+    this->alfabeto = alfabeto;
+}
+
+bool DFA::start(const std::string& input)
+{
+    for(std::list<StatoFA>::iterator i = stati.begin(); i!= stati.end(); i++)
     {
         if(!checkAlfa(&*i))
             return false;

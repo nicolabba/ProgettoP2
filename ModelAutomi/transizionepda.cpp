@@ -8,6 +8,6 @@ TransizionePDA::TransizionePDA(StatoPDA *s, char i, char h, char nh[]):Transizio
 char TransizionePDA::getHead(){
   return head;
 }
-char[2] TransizionePDA::getHead(){
+char* TransizionePDA::getNewHead(){
   return newHead;
 }

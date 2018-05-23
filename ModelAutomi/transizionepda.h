@@ -2,7 +2,9 @@
 #define TRANSIZIONEPDA_H
 
 #include "transizione.h"
+#include "statopda.h"
 
+class StatoPDA;
 class TransizionePDA : public Transizione
 {
 private:
@@ -11,7 +13,7 @@ private:
 public:
     TransizionePDA(StatoPDA *,char,char,char[2]);
     char getHead();
-    char[2] getNewHead();
+    char* getNewHead();
 };
 
 #endif // TRANSIZIONEPDA_H

@@ -1,17 +1,17 @@
 #ifndef NFA_H
 #define NFA_H
 
-#include "abstractautoma.h"
+#include "fa.h"
 
-class NFA : public AbstractAutoma
+class NFA : public FA
 {
 private:
     std::list<std::list<std::string>> chiusure;
     void updateChiusure();
-    bool check(Stato*, std::string);
+    bool check(StatoFA*, std::string);
 public:
-    NFA();
-    bool start(std::string);
+    NFA(StatoFA* = nullptr);
+    bool start(const std::string&);
 };
 
 #endif // NFA_H

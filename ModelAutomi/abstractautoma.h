@@ -8,16 +8,15 @@
 class AbstractAutoma
 {
 protected:
-    std::list<Stato> stati;
     Stato* partenza;
-    AbstractAutoma();
+    AbstractAutoma(Stato* = nullptr);
 public:
-    virtual bool start(std::string) = 0;
-    virtual void addStato(std::string);
-    virtual void removeStato(std::string);
-    Stato* getStato(std::string);
-    Stato* operator [](std::string);
-    void setStartingState(std::string);
+    virtual bool start(const std::string&) = 0;
+    virtual void addStato(const std::string&) = 0;
+    virtual void removeStato(const std::string&) = 0;
+    virtual void setStartingState(const std::string&) = 0;
+    //Stato* getStato(std::string);
+    //Stato* operator [](std::string);
 };
 
 #endif // ABSTRACTAUTOMA_H

@@ -11,14 +11,11 @@ class Stato
 private:
     std::string nome;
     bool finale;
-    std::vector<Transizione> trans;
+protected:
+    Stato(const std::string&,const bool& = false);
 public:
-    Stato(std::string n);
-    void add(Stato*, char);
-    void remove(Stato*,char);
-    virtual Transizione *getTrans(Stato*, char);
-    int nTrans();
-    Transizione* operator[](int);
+    virtual int nTrans() = 0;
+    virtual Transizione* operator[](int) = 0;
     std::string getNome();
     bool isFinale();
     void setFinale(bool);
