@@ -7,7 +7,6 @@
 class PDA : public AbstractAutoma
 {
 protected:
-    std::string stack;
     std::list<StatoPDA> stati;
     PDA(StatoPDA * = nullptr);
 public:

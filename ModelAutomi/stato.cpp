@@ -20,3 +20,4 @@ void Stato::setFinale(bool f)
     finale = f;
 }
 
+

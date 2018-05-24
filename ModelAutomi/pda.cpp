@@ -1,6 +1,6 @@
 #include "pda.h"
 
-PDA::PDA(StatoPDA *s):AbstractAutoma(s), stack("")
+PDA::PDA(StatoPDA *s):AbstractAutoma(s)
 {
 }
 

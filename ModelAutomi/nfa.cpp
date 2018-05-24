@@ -1,6 +1,6 @@
 #include "nfa.h"
 
-void supportChiusure(std::list<std::string> & curr, Stato* s)
+void NFA::supportChiusure(std::list<std::string> & curr, Stato* s)
 {
     bool presente;
     for (int i = 0; i<s->nTrans(); i++)
@@ -35,7 +35,7 @@ void NFA::updateChiusure()
     }
 }
 
-bool NFA::check(StatoFA* s, std::string input)
+bool NFA::check(StatoFA* s, const std::string& input)
 {
     std::list<StatoFA> chiusuraCorr = std::list<StatoFA>();
     for(std::list<std::list<std::string>>::iterator i = chiusure.begin(); i != chiusure.end(); i++)

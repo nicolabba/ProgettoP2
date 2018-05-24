@@ -14,7 +14,8 @@ SOURCES += \
     pda.cpp \
     statopda.cpp \
     statofa.cpp \
-    fa.cpp
+    fa.cpp \
+    npda.cpp
 
 HEADERS += \
     transizione.h \
@@ -26,4 +27,5 @@ HEADERS += \
     pda.h \
     statopda.h \
     statofa.h \
-    fa.h
+    fa.h \
+    npda.h

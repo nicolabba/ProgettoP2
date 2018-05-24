@@ -9,11 +9,11 @@ class TransizionePDA : public Transizione
 {
 private:
     char head;
-    char newHead[2];
+    std::string newHead;
 public:
-    TransizionePDA(StatoPDA *,char,char,char[2]);
+    TransizionePDA(StatoPDA *,char,char,const std::string&);
     char getHead();
-    char* getNewHead();
+    std::string getNewHead();
 };
 
 #endif // TRANSIZIONEPDA_H

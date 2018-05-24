@@ -1,13 +1,13 @@
 #include "transizionepda.h"
 
-TransizionePDA::TransizionePDA(StatoPDA *s, char i, char h, char nh[]):Transizione(s, i), head(h)
+TransizionePDA::TransizionePDA(StatoPDA *s, char i, char h, const std::string &nh):Transizione(s, i), head(h)
 {
-    newHead[0] = nh[0];
-    newHead[1] = nh[1];
+    if(nh.length() <= 2)
+        newHead = nh;
 }
 char TransizionePDA::getHead(){
   return head;
 }
-char* TransizionePDA::getNewHead(){
+std::string TransizionePDA::getNewHead(){
   return newHead;
 }

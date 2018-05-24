@@ -5,7 +5,7 @@ StatoPDA::StatoPDA(const std::string & nome, const bool& finale):Stato(nome,fina
 
 }
 
-Transizione *StatoPDA::getTrans(StatoPDA * stato, const char & input, const char & head, char* newHead)
+TransizionePDA *StatoPDA::getTrans(StatoPDA * stato, const char & input, const char & head, const std::string& newHead)
 {
     unsigned int j = 0;
     while(j<trans.size() && (trans[j].getDest() != stato || trans[j].getInput() != input ||
@@ -18,12 +18,13 @@ Transizione *StatoPDA::getTrans(StatoPDA * stato, const char & input, const char
         return &trans[j];
 }
 
-void StatoPDA::add(StatoPDA * stato, const char& input, const char& head, char* newHead)
+void StatoPDA::add(StatoPDA * stato, const char& input, const char& head, const std::string& newHead)
 {
-    if(getTrans(stato,input,head,newHead) == nullptr)
-    {
-        trans.push_back(TransizionePDA(stato,input,head,newHead));
-    }
+    if(newHead.size() <= 1 || (newHead.size() == 2 && head != '/0' && newHead[0] != '/0')) //accetto: s/s, s/e, e/s, e/e, s/ss
+        if(getTrans(stato,input,head,newHead) == nullptr)
+        {
+            trans.push_back(TransizionePDA(stato,input,head,newHead));
+        }
 }
 
 int StatoPDA::nTrans()
