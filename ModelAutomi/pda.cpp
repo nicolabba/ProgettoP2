@@ -1,7 +1,8 @@
 #include "pda.h"
 
-PDA::PDA(StatoPDA *s):AbstractAutoma(s)
+PDA::PDA(StatoPDA *s)
 {
+    partenza = s;
 }
 
 StatoPDA *PDA::getStato(const std::string& s)
@@ -29,6 +30,17 @@ void PDA::addStato(const std::string& s)
 void PDA::removeStato(const std::string& s)
 {
     bool eliminato = false;
+
+    for(std::list<StatoPDA>::iterator i = stati.begin();  i != stati.end(); i++)
+    {
+
+        for(int j = 0; j < i->nTrans(); j++)
+        {
+            TransizionePDA* temp = static_cast<TransizionePDA*>(i->operator [](j));
+            if(temp->getDest()->getNome() == s)
+                i->remove(dynamic_cast<StatoPDA*>(temp->getDest()),temp->getInput(),temp->getHead(),temp->getNewHead());
+        }
+    }
     for(std::list<StatoPDA>::iterator i = stati.begin();  i != stati.end() && !eliminato; i++)
     {
         if(i->getNome() == s)
@@ -44,4 +56,26 @@ void PDA::removeStato(const std::string& s)
 void PDA::setStartingState(const std::string& s)
 {
     partenza = getStato(s);
+}
+
+PDA::~PDA()
+{
+
+}
+
+void PDA::renameState(const std::string & oldName, const std::string & newName)
+{
+    StatoPDA* s = nullptr;
+    bool trovato = false;
+    for(std::list<StatoPDA>::iterator i = stati.begin(); i != stati.end() && !trovato; i++)
+    {
+        if(i->getNome() == newName)
+            trovato = true;
+        else if(i->getNome() == oldName)
+            s = &(*i);
+    }
+    if(!trovato && s)
+    {
+        s->rename(newName);
+    }
 }

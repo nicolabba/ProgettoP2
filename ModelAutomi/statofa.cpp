@@ -46,3 +46,4 @@ Transizione *StatoFA::operator [](int i)
 {
     return &trans[i];
 }
+

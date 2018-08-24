@@ -1,5 +1,11 @@
 #include "abstractautoma.h"
 
-AbstractAutoma::AbstractAutoma(Stato* p):partenza(p)
+Stato *AbstractAutoma::getStartingState()
 {
+    return partenza;
+}
+
+AbstractAutoma::~AbstractAutoma()
+{
+
 }

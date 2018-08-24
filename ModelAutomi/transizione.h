@@ -13,6 +13,7 @@ public:
     Transizione(Stato* s, char i);
     Stato* getDest();
     char getInput();
+    virtual ~Transizione();
 };
 
 #endif // TRANSIZIONE_H

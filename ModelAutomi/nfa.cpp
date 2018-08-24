@@ -86,5 +86,3 @@ bool NFA::start(const std::string& input)
     else
         return false;
 }
-
-

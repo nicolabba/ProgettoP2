@@ -27,6 +27,19 @@ void StatoPDA::add(StatoPDA * stato, const char& input, const char& head, const 
         }
 }
 
+void StatoPDA::remove(StatoPDA * stato, const char & input, const char & head, const std::string & newHead)
+{
+    bool eliminato = false;
+    for(std::vector<TransizionePDA>::iterator j = trans.begin();  j != trans.end() && !eliminato; j++)
+    {
+        if(j->getDest() == stato && j->getInput() == input && j->getHead() == head && j->getNewHead() == newHead)
+        {
+            trans.erase(j);
+            eliminato = true;
+        }
+    }
+}
+
 int StatoPDA::nTrans()
 {
     return trans.size();

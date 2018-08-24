@@ -16,6 +16,8 @@ public:
     void addStato(const std::string &);
     void removeStato(const std::string &);
     void setStartingState(const std::string &);
+    virtual ~PDA();
+    void renameState(const std::string &,const std::string &);
 };
 
 #endif // PDA_H

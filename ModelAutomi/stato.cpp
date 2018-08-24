@@ -10,6 +10,11 @@ std::string Stato::getNome()
     return nome;
 }
 
+void Stato::rename(const std::string & newNome)
+{
+     nome = newNome;
+}
+
 bool Stato::isFinale()
 {
     return finale;

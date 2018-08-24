@@ -1,8 +1,8 @@
 #include "fa.h"
 
-FA::FA(StatoFA *s):AbstractAutoma(s)
+FA::FA(StatoFA *s)
 {
-
+    partenza = s;
 }
 
 StatoFA *FA::getStato(const std::string& s)
@@ -30,6 +30,15 @@ void FA::addStato(const std::string& s)
 void FA::removeStato(const std::string& s)
 {
     bool eliminato = false;
+    for(std::list<StatoFA>::iterator i = stati.begin();  i != stati.end(); i++)
+    {
+        for(int j = 0; j < i->nTrans(); j++)
+        {
+            Transizione* temp = i->operator [](j);
+            if(temp->getDest()->getNome() == s)
+                i->remove(dynamic_cast<StatoFA*>(temp->getDest()), temp->getInput());
+        }
+    }
     for(std::list<StatoFA>::iterator i = stati.begin();  i != stati.end() && !eliminato; i++)
     {
         if(i->getNome() == s)
@@ -46,3 +55,26 @@ void FA::setStartingState(const std::string& s)
 {
     partenza = getStato(s);
 }
+
+FA::~FA()
+{
+
+}
+
+void FA::renameState(const std::string & oldName, const std::string & newName)
+{
+    StatoFA* s = nullptr;
+    bool trovato = false;
+    for(std::list<StatoFA>::iterator i = stati.begin(); i != stati.end() && !trovato; i++)
+    {
+        if(i->getNome() == newName)
+            trovato = true;
+        else if(i->getNome() == oldName)
+            s = &(*i);
+    }
+    if(!trovato && s)
+    {
+        s->rename(newName);
+    }
+}
+

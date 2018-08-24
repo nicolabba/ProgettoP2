@@ -17,6 +17,8 @@ public:
     void addStato(const std::string &);
     void removeStato(const std::string &);
     void setStartingState(const std::string &);
+    virtual ~FA();
+    void renameState(const std::string &,const std::string &);
 };
 
 #endif // FA_H

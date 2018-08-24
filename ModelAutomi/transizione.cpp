@@ -10,6 +10,11 @@ char Transizione::getInput()
     return input;
 }
 
+Transizione::~Transizione()
+{
+
+}
+
 Transizione::Transizione(Stato *s, char i):dest(s), input(i)
 {
 

@@ -17,6 +17,7 @@ public:
     virtual int nTrans() = 0;
     virtual Transizione* operator[](int) = 0;
     std::string getNome();
+    void rename(const std::string&);
     bool isFinale();
     void setFinale(bool);
 };
