@@ -3,7 +3,7 @@ package progettoP2;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class FA implements AbstractAutoma{	
+public abstract class FA implements AbstractAutoma{	
 	protected ArrayList<StatoFA> stati;
 	protected StatoFA partenza; 
 	
