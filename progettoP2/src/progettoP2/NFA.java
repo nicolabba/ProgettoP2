@@ -42,7 +42,7 @@ public class NFA extends FA{
 	    {
 	        if(chiusure.get(i).get(0) == s.getNome())
 	        {
-	            for(int j = i; j <  chiusure.get(i).size(); j++)
+	            for(int j = 0; j <  chiusure.get(i).size(); j++)
 	            {
 	                chiusuraCorr.add(getStato(chiusure.get(i).get(j)));
 	            }
