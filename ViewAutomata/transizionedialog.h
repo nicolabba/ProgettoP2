@@ -10,6 +10,7 @@ class TransizioneDialog : public QDialog
 {
     Q_OBJECT
 private:
+    AutomaGraphicsView::AutomaType type;
     std::list<char>* input, *head;
     std::list<std::string>* newHead;
     std::string partenza, arrivo;

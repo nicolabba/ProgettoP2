@@ -1,11 +1,21 @@
 #include "nfa.h"
 
+char NFA::getEpsilon() const
+{
+    return epsilon;
+}
+
+void NFA::setEpsilon(char value)
+{
+    epsilon = value;
+}
+
 void NFA::supportChiusure(std::list<std::string> & curr, Stato* s)
 {
     bool presente;
     for (int i = 0; i<s->nTrans(); i++)
     {
-        if((*s)[i]->getInput() == '\0')
+        if((*s)[i]->getInput() == epsilon)
         {
             presente = false;
             for(std::list<std::string>::iterator j = curr.begin(); j!=curr.end() && !presente; j++)

@@ -2,7 +2,6 @@
 #define NEWSTATODIALOG_H
 
 #include <QDialog>
-#include <QLineEdit>
 
 class StatoDialog : public QDialog
 {

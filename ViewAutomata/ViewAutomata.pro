@@ -42,7 +42,8 @@ SOURCES += \
     automagraphicsview.cpp \
     nfa.cpp \
     statodialog.cpp \
-    transizionedialog.cpp
+    transizionedialog.cpp \
+    settingsdialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -62,7 +63,8 @@ HEADERS += \
     arrowhead.h \
     automagraphicsview.h \
     statodialog.h \
-    transizionedialog.h
+    transizionedialog.h \
+    settingsdialog.h
 
 FORMS +=
 

@@ -1,5 +1,6 @@
 #include "statodialog.h"
 #include <QPushButton>
+#include <QLineEdit>
 #include <QBoxLayout>
 #include <QMessageBox>
 #include <QCheckBox>

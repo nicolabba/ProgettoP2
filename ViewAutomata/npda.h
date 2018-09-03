@@ -6,6 +6,7 @@
 class NPDA : public PDA
 {
 private:
+    char epsilon;
     std::list<std::list<std::string>> chiusure;
     void supportChiusure(std::list<std::string> & , Stato* );
     void updateChiusure();
@@ -13,6 +14,8 @@ private:
 public:
     NPDA(StatoPDA* = nullptr);
     bool start(const std::string &);
+    char getEpsilon() const;
+    void setEpsilon(char value);
 };
 
 #endif // NPDA_H

@@ -1,11 +1,21 @@
 #include "npda.h"
 
+char NPDA::getEpsilon() const
+{
+    return epsilon;
+}
+
+void NPDA::setEpsilon(char value)
+{
+    epsilon = value;
+}
+
 void NPDA::supportChiusure(std::list<std::string> & curr, Stato* s)
 {
     bool presente;
     for (int i = 0; i<s->nTrans(); i++)
     {
-        if((*s)[i]->getInput() == '\0')
+        if((*s)[i]->getInput() == epsilon)
         {
             presente = false;
             for(std::list<std::string>::iterator j = curr.begin(); j!=curr.end() && !presente; j++)
@@ -71,10 +81,10 @@ bool NPDA::check(StatoPDA * s, const std::string & input, const std::string& sta
             for(int t = 0; t < i->nTrans(); t++)
             {
                 tempTrans = static_cast<TransizionePDA*>((*i)[t]);
-                if(tempTrans->getInput() == input[0] && (tempTrans->getHead() == stack[0] || tempTrans->getHead() == '\0'))
+                if(tempTrans->getInput() == input[0] && (tempTrans->getHead() == stack[0] || tempTrans->getHead() == epsilon))
                 {
                     tempStack = stack;
-                    if(tempTrans->getHead() != '\0')
+                    if(tempTrans->getHead() != epsilon)
                     {
                         tempStack = tempStack.substr(1,tempStack.length()-1);
                         if(tempTrans->getNewHead().length() != 0)

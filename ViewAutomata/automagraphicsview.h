@@ -33,7 +33,9 @@ public:
     void setStartingState(const std::string&);
     void setFinal(const std::string&, bool);
     std::list<std::string> *getStatesName() const;
-
+    std::string getAlphabet() const;
+    char getEpsilon() const;
+    void setEpsilon(char) const;
 private:
     AutomaType currentType;
     AbstractAutoma* automa;

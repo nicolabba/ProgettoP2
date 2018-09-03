@@ -18,7 +18,6 @@ public:
     ~MainWindow();
 
 private:
-    AbstractAutoma* automa;
     AutomaGraphicsView* view;
     QTextEdit* check;
 
@@ -26,6 +25,7 @@ private slots:
     void start();
     void addStato();
     void addTransizione();
+    void editAutoma();
 };
 
 #endif // MAINWINDOW_H

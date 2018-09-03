@@ -2,6 +2,8 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QBoxLayout>
+#include <QMessageBox>
+
 std::string TransizioneDialog::getPartenza() const
 {
     return partenza;
@@ -28,7 +30,7 @@ std::list<char>* TransizioneDialog::getHead() const
 }
 
 TransizioneDialog::TransizioneDialog(QWidget * parent, Qt::WindowFlags f, std::list<std::string> *stati, AutomaGraphicsView::AutomaType type, std::string da, std::string a, QString inputs, QString heads, QString newHeads):
-    QDialog(parent, f), partenza(da), arrivo(a)//, input(input), head(head), newHead(newHead)
+    type(type), QDialog(parent, f), partenza(da), arrivo(a)//, input(input), head(head), newHead(newHead)
 {
     editInput(inputs);
     editHead(heads);
@@ -176,3 +178,4 @@ void TransizioneDialog::arrSelection()
     arrEdit->setTextCursor(cursor);
     arrivo = cursor.selectedText().toStdString();
 }
+

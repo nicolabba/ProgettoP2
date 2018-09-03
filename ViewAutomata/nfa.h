@@ -6,6 +6,7 @@
 class NFA : public FA
 {
 private:
+    char epsilon;
     std::list<std::list<std::string>> chiusure;
     void supportChiusure(std::list<std::string> &, Stato*);
     void updateChiusure();
@@ -13,6 +14,8 @@ private:
 public:
     NFA(StatoFA* = nullptr);
     bool start(const std::string&);
+    char getEpsilon() const;
+    void setEpsilon(char value);
 };
 
 #endif // NFA_H

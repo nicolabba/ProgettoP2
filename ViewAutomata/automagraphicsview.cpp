@@ -159,6 +159,50 @@ std::list<std::string>* AutomaGraphicsView::getStatesName() const
     return ret;
 }
 
+std::string AutomaGraphicsView::getAlphabet() const
+{
+    class DFA* temp;
+    if(currentType == DFA)
+    {
+        temp = dynamic_cast<class DFA*>(automa);
+        return temp->getAlfabeto();
+    }
+    else
+        return "";
+}
+
+char AutomaGraphicsView::getEpsilon() const
+{
+    class NFA* tempN;
+    class NPDA* tempP;
+    if(currentType == NFA)
+    {
+        tempN = dynamic_cast<class NFA*>(automa);
+        return tempN->getEpsilon();
+    }
+    if(currentType == PDA)
+    {
+        tempP = dynamic_cast<class NPDA*>(automa);
+        return tempP->getEpsilon();
+    }
+    return '\0';
+}
+
+void AutomaGraphicsView::setEpsilon(char val) const
+{
+    class NFA* tempN;
+    class NPDA* tempP;
+    if(currentType == NFA)
+    {
+        tempN = dynamic_cast<class NFA*>(automa);
+        tempN->setEpsilon(val);
+    } else
+        if(currentType == PDA)
+        {
+            tempP = dynamic_cast<class NPDA*>(automa);
+            tempP->setEpsilon(val);
+        }
+}
 
 void AutomaGraphicsView::update()
 {

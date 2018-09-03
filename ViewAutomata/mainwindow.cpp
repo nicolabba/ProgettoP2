@@ -7,6 +7,7 @@
 #include "statodialog.h"
 #include <QMessageBox>
 #include "transizionedialog.h"
+#include "settingsdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent){
@@ -52,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     editSelected->setToolTip("Modifica l'elemento selezionato");
     removeSelected->setToolTip("Rimuovi l'elemento selezionato");
     start->setToolTip("Avvia l'automa utilizzando le parole nella casella di testo a sinistra come input");
-    connect(settings,SIGNAL(pressed()),view,SLOT(editAutoma()));
+    connect(settings,SIGNAL(pressed()),this,SLOT(editAutoma()));
     connect(addStato,SIGNAL(pressed()),this,SLOT(addStato()));
     connect(addTransizione,SIGNAL(pressed()),this,SLOT(addTransizione()));
     connect(editSelected,SIGNAL(pressed()),view,SLOT(editSelected()));
@@ -162,6 +163,20 @@ void MainWindow::addTransizione()
             }
         }
     }while(error);
+    delete win;
+}
+
+void MainWindow::editAutoma()
+{
+    SettingsDialog* win = new SettingsDialog(this,Qt::WindowFlags(),view->getCurrentType(), QString::fromStdString(view->getAlphabet()), QChar::fromLatin1(view->getEpsilon()));
+    if(win->exec())
+    {
+        delete view;
+        view = new AutomaGraphicsView();
+        view->changeType(win->getType());
+        view->setAlfabetoDFA(win->getAlphabet().toStdString());
+        view->setEpsilon(win->getEpsilon().toLatin1());
+    }
     delete win;
 }
 
