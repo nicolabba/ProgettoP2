@@ -1,24 +1,24 @@
 #ifndef PUNTO_H
 #define PUNTO_H
 
-
 class Punto
 {
 private:
-    int x;
-    int y;
+    double x;
+    double y;
 public:
-    Punto(int = 0, int = 0); // int -> punto
+    Punto(double = 0, double = 0); // double -> punto
     bool operator==(const Punto&) const;
 
-    int getX() const;
-    int getY() const;
 
-    int getDistance(const Punto&) const; // distanza tra due punti
-    static int getDistance(const Punto&, const Punto&);
-    
+    double getX() const;
+    double getY() const;
+
+    double getDistance(const Punto&) const; // distanza tra due punti
+    static double getDistance(const Punto&, const Punto&);
+
     Punto* getLocation() const;
-    void setLocation(int, int);
+    void setLocation(double, double);
 };
 
 #endif // PUNTO_H
