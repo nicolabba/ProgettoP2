@@ -39,10 +39,10 @@ int PDA::getNStati()
     return stati.size();
 }
 
-void PDA::addStato(const std::string& s)
+void PDA::addStato(const std::string& s, bool finale)
 {
         if(getStato(s) == nullptr)
-            stati.push_back(StatoPDA(s));
+            stati.push_back(StatoPDA(s, finale));
 }
 
 void PDA::removeStato(const std::string& s)

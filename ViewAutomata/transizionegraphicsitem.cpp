@@ -147,7 +147,7 @@ void TransizioneGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
             textShown.append(QString::fromStdString(tempTrans->getNewHead()));
             if(++i != transizioni->end())
             {
-                textShown.append(",\n");
+                textShown.append("\n");
                 lines++;
             }
         }else
@@ -166,7 +166,7 @@ void TransizioneGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
         painter->drawEllipse(*rect);
         angle = 0;
         vertex = QPoint(bRect.left() + (bRect.width() / 2), bRect.bottom() - 5);
-        textRect = QRectF(bRect.left() - textShown.length() * 6,bRect.top() - 12 * (lines + 1), bRect.width() + textShown.length() * 12, 12 * (lines + 1));
+        textRect = QRectF(bRect.left() - textShown.length() * 6,bRect.top() - 15 * (lines + 1), bRect.width() + textShown.length() * 12, 12 * (lines + 1));
         textOptions = QTextOption(Qt::AlignBottom | Qt::AlignHCenter);
     }else
     {

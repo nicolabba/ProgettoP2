@@ -8,9 +8,8 @@
 class StatoGraphicsItem : public QGraphicsItem
 {
 private:
-    bool iniziale;
-    bool finale;
     Stato* s;
+    bool iniziale;
 public:
     StatoGraphicsItem(Stato* = nullptr);
     StatoGraphicsItem(StatoGraphicsItem&);

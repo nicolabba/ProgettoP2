@@ -83,7 +83,7 @@ bool NFA::check(StatoFA* s, const std::string& input)
     return false;
 }
 
-NFA::NFA(StatoFA * partenza):FA(partenza)
+NFA::NFA(char epsilon, StatoFA * partenza):FA(partenza), epsilon(epsilon)
 {
     chiusure = std::list<std::list<std::string>>();
 }

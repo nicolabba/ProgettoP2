@@ -47,7 +47,7 @@ void NPDA::updateChiusure()
 
 
 
-NPDA::NPDA(StatoPDA * partenza):PDA(partenza)
+NPDA::NPDA(char epsilon, StatoPDA * partenza):PDA(partenza), epsilon(epsilon)
 {
 
 }

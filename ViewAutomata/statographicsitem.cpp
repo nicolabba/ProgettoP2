@@ -1,7 +1,7 @@
 #include "statographicsitem.h"
 #include "arrowhead.h"
 
-StatoGraphicsItem::StatoGraphicsItem(Stato* stato):QGraphicsItem(), s(stato), iniziale(false), finale(false)
+StatoGraphicsItem::StatoGraphicsItem(Stato* stato):QGraphicsItem(), s(stato), iniziale(false)
 {
     setFlag(QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemIsMovable);
@@ -26,7 +26,7 @@ void StatoGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     painter->drawEllipse(rect);
     painter->setFont(QFont("Arial",18));
     painter->drawText(rect, QString::fromStdString(s->getNome()), QTextOption(Qt::AlignCenter));
-    if(finale)
+    if(s->isFinale())
         painter->drawEllipse(5,5,40,40);
     if(iniziale)
     {
@@ -54,13 +54,13 @@ bool StatoGraphicsItem::getIniziale()
 
 void StatoGraphicsItem::setFinale(bool value)
 {
-    finale = value;
+    s->setFinale(value);
     this->update();
 }
 
 bool StatoGraphicsItem::getFinale()
 {
-    return finale;
+    return s->isFinale();
 }
 
 Stato *StatoGraphicsItem::getStato()

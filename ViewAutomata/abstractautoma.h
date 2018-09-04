@@ -11,7 +11,7 @@ protected:
     Stato* partenza;
 public:
     virtual bool start(const std::string&) = 0;
-    virtual void addStato(const std::string&) = 0;
+    virtual void addStato(const std::string&, bool) = 0;
     virtual void removeStato(const std::string&) = 0;
     virtual void setStartingState(const std::string&) = 0;
     virtual void renameState(const std::string&, const std::string&) = 0;

@@ -38,10 +38,10 @@ int FA::getNStati()
     return stati.size();
 }
 
-void FA::addStato(const std::string& s)
+void FA::addStato(const std::string& s, bool finale)
 {
         if(getStato(s) == nullptr)
-            stati.push_back(StatoFA(s));
+            stati.push_back(StatoFA(s,finale));
 }
 
 void FA::removeStato(const std::string& s)

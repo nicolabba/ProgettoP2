@@ -18,11 +18,11 @@ public:
         NFA,
         PDA
     };
-    AutomaGraphicsView(QWidget *parent = nullptr, AutomaType type = DFA);
+    AutomaGraphicsView(QWidget * = nullptr, AutomaType = NFA);
     AutomaType getCurrentType() const;
     bool check(const std::string&) const;
     void changeType(AutomaType);
-    void addStato(const std::string&, int = 0, int = 0);
+    void addStato(const std::string&, bool = false, bool = false, int = 0, int = 0);
     void addTransizione(const std::string&, const std::string&, const char&, const char& = '\0', const std::string& = " \0");
     void removeStato(const std::string&);
     void removeTransizione(const std::string&, const std::string&, const char&, const char& = '\0', const std::string& = " \0");
@@ -36,6 +36,7 @@ public:
     std::string getAlphabet() const;
     char getEpsilon() const;
     void setEpsilon(char) const;
+    void reset(AutomaType = NFA, std::string = "", char = '\0');
 private:
     AutomaType currentType;
     AbstractAutoma* automa;

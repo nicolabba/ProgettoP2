@@ -15,7 +15,7 @@ public:
     StatoPDA* operator[](int);
     int getNStati();
     virtual bool start(const std::string &) = 0;
-    void addStato(const std::string &);
+    void addStato(const std::string &, bool = false);
     void removeStato(const std::string &);
     void setStartingState(const std::string &);
     virtual ~PDA();

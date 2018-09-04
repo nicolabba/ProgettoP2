@@ -12,7 +12,7 @@ private:
     void updateChiusure();
     bool check(StatoPDA*, const std::string&, const std::string&);
 public:
-    NPDA(StatoPDA* = nullptr);
+    NPDA(char = '\0', StatoPDA* = nullptr);
     bool start(const std::string &);
     char getEpsilon() const;
     void setEpsilon(char value);

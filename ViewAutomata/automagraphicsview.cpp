@@ -44,7 +44,7 @@ AutomaGraphicsView::AutomaType AutomaGraphicsView::getCurrentType() const
 
 
 
-void AutomaGraphicsView::addStato(const std::string & nome, int top, int left)
+void AutomaGraphicsView::addStato(const std::string & nome, bool finale, bool iniziale, int left, int top)
 {
     FA* a;
     NPDA* b;
@@ -53,17 +53,19 @@ void AutomaGraphicsView::addStato(const std::string & nome, int top, int left)
     case NFA:
     case DFA:
         a = dynamic_cast<FA*>(automa);
-        a->addStato(nome);
+        a->addStato(nome,finale);
         stati.push_back(new StatoGraphicsItem(a->getStato(nome)));
         break;
     case PDA:
         b = static_cast<NPDA*>(automa);
-        b->addStato(nome);
+        b->addStato(nome, finale);
         stati.push_back(new StatoGraphicsItem(b->getStato(nome)));
         break;
     }
     scene->addItem(stati.last());
     stati.last()->moveBy(left,top);
+    if(iniziale)
+        setStartingState(nome);
 }
 
 void AutomaGraphicsView::removeStato(const std::string & nome)
@@ -142,11 +144,11 @@ void AutomaGraphicsView::setFinal(const std::string & nome, bool val)
         break;
     }
     temp->setFinale(val);
-    for(QVector<StatoGraphicsItem*>::iterator i = stati.begin(); i != stati.end(); i++)
-    {
-        if((*i)->getStato()->getNome() == nome)
-            (*i)->setFinale(val);
-    }
+//    for(QVector<StatoGraphicsItem*>::iterator i = stati.begin(); i != stati.end(); i++)
+//    {
+//        if((*i)->getStato()->getNome() == nome)
+//            (*i)->setFinale(val);
+//    }
 }
 
 std::list<std::string>* AutomaGraphicsView::getStatesName() const
@@ -202,6 +204,25 @@ void AutomaGraphicsView::setEpsilon(char val) const
             tempP = dynamic_cast<class NPDA*>(automa);
             tempP->setEpsilon(val);
         }
+}
+
+void AutomaGraphicsView::reset(AutomaGraphicsView::AutomaType type, std::string alphabet, char epsilon)
+{
+    scene->clear();
+    transizioni.clear();
+    stati.clear();
+    delete automa;
+
+    currentType = type;
+    switch(type)
+    {
+    case NFA: automa = new class NFA(epsilon);
+        break;
+    case DFA: automa = new class DFA(alphabet);
+        break;
+    case PDA: automa = new class NPDA(epsilon);
+        break;
+    }
 }
 
 void AutomaGraphicsView::update()

@@ -141,7 +141,7 @@ void SettingsDialog::accept()
         }
     }
     else
-        if(alphabet == '\0')
+        if(alphabet == "")
         {
             error = true;
             temp = new QMessageBox("Errore", "Deve essere presente almeno un carattere nell'alfabeto",

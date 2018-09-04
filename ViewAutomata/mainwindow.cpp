@@ -107,11 +107,7 @@ void MainWindow::addStato()
             else
             {
                 std::string nome = win->getInput().toStdString();
-                view->addStato(nome);
-                if(win->getIniziale())
-                    view->setStartingState(nome);
-                if(win->getFinale())
-                    view->setFinal(nome, true);
+                view->addStato(nome, win->getFinale(),win->getIniziale());
             }
         }
     }while(error);
@@ -120,7 +116,7 @@ void MainWindow::addStato()
 
 void MainWindow::addTransizione()
 {
-    TransizioneDialog* win = new TransizioneDialog(this,Qt::WindowFlags(),view->getStatesName());
+    TransizioneDialog* win = new TransizioneDialog(this,Qt::WindowFlags(),view->getStatesName(),view->getCurrentType());
     bool error;
     do
     {
@@ -171,11 +167,14 @@ void MainWindow::editAutoma()
     SettingsDialog* win = new SettingsDialog(this,Qt::WindowFlags(),view->getCurrentType(), QString::fromStdString(view->getAlphabet()), QChar::fromLatin1(view->getEpsilon()));
     if(win->exec())
     {
-        delete view;
-        view = new AutomaGraphicsView();
-        view->changeType(win->getType());
-        view->setAlfabetoDFA(win->getAlphabet().toStdString());
-        view->setEpsilon(win->getEpsilon().toLatin1());
+        if(win->getType() != view->getCurrentType())
+        {
+            view->reset(win->getType(), win->getAlphabet().toStdString(), win->getEpsilon().toLatin1());
+        }else
+        {
+            view->setEpsilon(win->getEpsilon().toLatin1());
+            view->setAlfabetoDFA(win->getAlphabet().toStdString());
+        }
     }
     delete win;
 }

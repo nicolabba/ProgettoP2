@@ -12,7 +12,7 @@ private:
     void updateChiusure();
     bool check(StatoFA*, const std::string&);
 public:
-    NFA(StatoFA* = nullptr);
+    NFA(char = '\0',StatoFA* = nullptr);
     bool start(const std::string&);
     char getEpsilon() const;
     void setEpsilon(char value);
