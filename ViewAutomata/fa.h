@@ -21,6 +21,7 @@ public:
     void setStartingState(const std::string &);
     virtual ~FA();
     void renameState(const std::string &,const std::string &);
+    void addTransizione(const std::string &,const std::string &, char);
 };
 
 #endif // FA_H

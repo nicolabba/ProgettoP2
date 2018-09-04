@@ -31,7 +31,6 @@ SettingsDialog::SettingsDialog(QWidget * parent, Qt::WindowFlags f, AutomaGraphi
     typeSel->setReadOnly(true);
     typeSel->setToolTip("Qui puoi selezionare il tipo di automa");
     typeSel->append("NFA\nDFA\nPDA");
-    connect(typeSel, SIGNAL(cursorPositionChanged()), this, SLOT(typeSelection()));
     int index;
     switch(type)
     {
@@ -45,8 +44,13 @@ SettingsDialog::SettingsDialog(QWidget * parent, Qt::WindowFlags f, AutomaGraphi
         index = 8;
         break;
     }
-    typeSel->textCursor().setPosition(index);
-    typeSel->textCursor().movePosition(QTextCursor::MoveOperation::EndOfLine,QTextCursor::MoveMode::KeepAnchor);
+    QTextCursor cursor;
+    cursor = typeSel->textCursor();
+    cursor.setPosition(index);
+    cursor.movePosition(QTextCursor::StartOfBlock,QTextCursor::MoveAnchor);
+    cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+    typeSel->setTextCursor(cursor);
+    connect(typeSel, SIGNAL(cursorPositionChanged()), this, SLOT(typeSelection()));
     layout->addWidget(typeSel);
 
     alphabetEdit = new QLineEdit(alphabet ,this);
@@ -104,6 +108,7 @@ void SettingsDialog::typeSelection()
         epsilonEdit->setToolTip("Qui va inserito il simbolo utilizzato per rappresentare epsilon");
         alphabetEdit->setEnabled(false);
         alphabetEdit->setToolTip("Disponibile solo per i DFA");
+        alphabetEdit->setText("");
     }
     else if(cursor.selectedText() == "DFA")
     {
@@ -112,6 +117,7 @@ void SettingsDialog::typeSelection()
         epsilonEdit->setToolTip("Disponibile solo per i DFA e i PDA");
         alphabetEdit->setEnabled(true);
         alphabetEdit->setToolTip("Ogni carattere presente qui verra' considerato parte dell'alfabeto di questo DFA");
+        epsilonEdit->setText("");
     }else
     {
         type = AutomaGraphicsView::AutomaType::PDA;
@@ -119,6 +125,7 @@ void SettingsDialog::typeSelection()
         epsilonEdit->setToolTip("Qui va inserito il simbolo utilizzato per rappresentare epsilon");
         alphabetEdit->setEnabled(false);
         alphabetEdit->setToolTip("Disponibile solo per i DFA");
+        alphabetEdit->setText("");
     }
 
 }

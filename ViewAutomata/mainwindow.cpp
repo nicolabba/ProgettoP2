@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->setStyleSheet("background-color: white");
     this->setWindowFlags( Qt::WindowTitleHint |  Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+    resize(750,500);
 
     QHBoxLayout* layout = new QHBoxLayout();
     QVBoxLayout* checkLayout = new QVBoxLayout();
@@ -21,24 +22,11 @@ MainWindow::MainWindow(QWidget *parent) :
     view = new AutomaGraphicsView();
 
     layout->addLayout(checkLayout,1);
-    layout->addWidget(view,2);
+    layout->addWidget(view,3);
     layout->addLayout(opLayout,0);
 
     check = new QTextEdit(this);
     checkLayout->addWidget(check,0);
-
-    view->changeType(AutomaGraphicsView::AutomaType::NFA);
-    view->addStato("q0");
-    view->addStato("q1");
-    view->addStato("q2");
-    view->setStartingState("q0");
-    view->addTransizione("q0","q1",'1');
-    view->addTransizione("q1","q2",'2');
-    view->addTransizione("q1","q2",'3');
-    view->addTransizione("q1","q2",'4');
-    view->removeTransizione("q1","q2",'2');
-    view->setFinal("q2",true);
-    //view->setBackgroundBrush(QColor(230, 200, 167));
 
     QString opStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:35px; height:35px } QToolTip{border:none; background-color:#f0f0f0}";
     QPushButton* settings = new QPushButton("Sett.",this);

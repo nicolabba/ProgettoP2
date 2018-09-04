@@ -21,7 +21,7 @@ QRectF StatoGraphicsItem::boundingRect() const
 void StatoGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRectF rect = boundingRect();
-    QPen pen = QPen(isSelected()?Qt::red:Qt::black,3);
+    QPen pen = QPen(isSelected()?Qt::darkGreen : Qt::black,3);
     painter->setPen(pen);
     painter->drawEllipse(rect);
     painter->setFont(QFont("Arial",18));

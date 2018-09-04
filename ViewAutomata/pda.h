@@ -20,6 +20,7 @@ public:
     void setStartingState(const std::string &);
     virtual ~PDA();
     void renameState(const std::string &,const std::string &);
+    void addTransizione(const std::string &,const std::string &, char, char, std::string);
 };
 
 #endif // PDA_H

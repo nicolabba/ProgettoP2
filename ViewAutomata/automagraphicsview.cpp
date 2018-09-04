@@ -8,32 +8,12 @@
 #include <QMessageBox>
 #include "transizionedialog.h"
 
-void AutomaGraphicsView::changeType(AutomaType type)
-{
-    currentType = type;
-    delete automa;
-    stati = QVector<StatoGraphicsItem*>();
-    transizioni = QVector<TransizioneGraphicsItem*>();
 
-    switch(type)
-    {
-    case NFA: automa = new class NFA();
-        break;
-
-    case DFA: automa = new class DFA();
-        break;
-
-    case PDA: automa = new NPDA();
-        break;
-    }
-}
-
-
-AutomaGraphicsView::AutomaGraphicsView(QWidget *parent, AutomaGraphicsView::AutomaType type) : QGraphicsView(parent)
+AutomaGraphicsView::AutomaGraphicsView(QWidget *parent, AutomaGraphicsView::AutomaType type, std::string alphabet, char epsilon) : QGraphicsView(parent)
 {
     scene = new QGraphicsScene(this);
     automa = nullptr;
-    changeType(type);
+    reset(type,alphabet,epsilon);
     setScene(scene);
 }
 
@@ -416,11 +396,9 @@ void AutomaGraphicsView::editSelected()
             for(std::list<Transizione*>::iterator j = (*i)->transizioni->begin(); j != (*i)->transizioni->end();)
             {
                 inputs.append((*j)->getInput());
-                if(++j != (*i)->transizioni->end())
-                    inputs.append(",");
                 if(currentType == AutomaType::PDA)
                 {
-                    tempPDA == dynamic_cast<TransizionePDA*>(*j);
+                    tempPDA = dynamic_cast<TransizionePDA*>(*j);
                     heads.append(tempPDA->getHead());
                     newHeads.append(QString::fromStdString(tempPDA->getNewHead()));
                     if(j != (*i)->transizioni->end())
@@ -429,6 +407,8 @@ void AutomaGraphicsView::editSelected()
                         newHeads.append(",");
                     }
                 }
+                if(++j != (*i)->transizioni->end())
+                    inputs.append(",");
             }
             TransizioneDialog* win = new TransizioneDialog(this,Qt::WindowFlags(),getStatesName(),currentType,(*i)->da->getStato()->getNome(),(*i)->a->getStato()->getNome(), inputs, heads, newHeads);
             bool error;
@@ -495,23 +475,11 @@ void AutomaGraphicsView::addTransizione(const std::string & from, const std::str
     case NFA:
     case DFA:
         a = dynamic_cast<FA*>(automa);
-        tempDa1 = a->getStato(from);
-        tempA1 = a->getStato(to);
-        if(tempA1 && tempDa1)
-        {
-            tempDa1->add(a->getStato(to),input);
-            temp = tempDa1->getTrans(a->getStato(to),input);
-        }
+        a->addTransizione(from,to,input);
         break;
     case PDA:
         b = static_cast<NPDA*>(automa);
-        tempDa2 = b->getStato(from);
-        tempA2 = b->getStato(to);
-        if(tempA2 && tempDa2 && head)
-        {
-            tempDa2->add(b->getStato(to),input,head,newHead);
-            temp = tempDa2->getTrans(b->getStato(to),input,head,newHead);
-        }
+        b->addTransizione(from,to,input,head,newHead);
         break;
     }
     if(temp)

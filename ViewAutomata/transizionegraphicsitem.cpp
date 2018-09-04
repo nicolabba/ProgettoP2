@@ -2,6 +2,8 @@
 #include "arrowhead.h"
 #include <math.h>
 #include "transizionepda.h"
+
+
 TransizioneGraphicsItem::TransizioneGraphicsItem(Transizione * tran, StatoGraphicsItem * da, StatoGraphicsItem *a, bool d) : QGraphicsItem(),
     da(da), a(a), doppia(d)
 {
@@ -155,7 +157,7 @@ void TransizioneGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
                 textShown.append(",");
     }
 
-    painter->setPen(QPen(isSelected()?Qt::red : Qt::black,3));
+    painter->setPen(QPen(isSelected()?Qt::darkGreen : Qt::black,3));
     double angle;
     QPoint vertex;
     QRectF bRect = boundingRect();
@@ -166,7 +168,7 @@ void TransizioneGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
         painter->drawEllipse(*rect);
         angle = 0;
         vertex = QPoint(bRect.left() + (bRect.width() / 2), bRect.bottom() - 5);
-        textRect = QRectF(bRect.left() - textShown.length() * 6,bRect.top() - 15 * (lines + 1), bRect.width() + textShown.length() * 12, 12 * (lines + 1));
+        textRect = QRectF(bRect.left() - textShown.length() * 6,bRect.top() - 20 * (lines + 1), bRect.width() + textShown.length() * 12, 20 * (lines + 1));
         textOptions = QTextOption(Qt::AlignBottom | Qt::AlignHCenter);
     }else
     {
@@ -203,7 +205,7 @@ void TransizioneGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
         }
 
         QPoint middle = QPoint((rect->left() + (rect->right() - rect->left()) / 2), (rect->top() + (rect->bottom() - rect->top()) / 2));
-        textRect = QRectF(middle.rx() - (20 + textShown.length() * 6), middle.ry() - (20 + lines * 6), 40 + textShown.length() * 12, 40 + lines * 12);
+        textRect = QRectF(middle.rx() - (20 + textShown.length()/(lines + 1) * 6), middle.ry() - (lines + 1) * 20, 40 + textShown.length()/(lines + 1) * 12, (lines + 1)*40);
 
         if(angleCheck >= 45 && angleCheck < 135)
             textOptions = QTextOption(Qt::AlignRight | Qt::AlignVCenter);
@@ -219,7 +221,7 @@ void TransizioneGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
     path.addPolygon((new ArrowHead(vertex,angle))->getPoly());
     path.closeSubpath();
     painter->drawPath(path);
-    painter->fillPath(path, QBrush(isSelected()?Qt::red : Qt::black));
+    painter->fillPath(path, QBrush(isSelected()?Qt::darkGreen : Qt::black));
 
     painter->setPen(QPen(Qt::black,3));
     painter->setFont(QFont("Arial",12));

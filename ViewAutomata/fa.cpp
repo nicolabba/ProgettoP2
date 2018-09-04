@@ -95,3 +95,11 @@ void FA::renameState(const std::string & oldName, const std::string & newName)
     }
 }
 
+void FA::addTransizione(const std::string & da, const std::string & a, char input)
+{
+    StatoFA* daStato = getStato(da);
+    StatoFA* aStato = getStato(a);
+    if (daStato && aStato)
+        daStato->add(aStato,input);
+}
+

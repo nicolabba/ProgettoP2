@@ -97,3 +97,11 @@ void PDA::renameState(const std::string & oldName, const std::string & newName)
         s->rename(newName);
     }
 }
+
+void PDA::addTransizione(const std::string & da, const std::string & a, char input, char head, std::string newHead)
+{
+    StatoPDA* daStato = getStato(da);
+    StatoPDA* aStato = getStato(a);
+    if (daStato && aStato)
+        daStato->add(aStato,input,head,newHead);
+}
