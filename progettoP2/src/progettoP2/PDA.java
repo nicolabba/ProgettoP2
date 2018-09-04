@@ -3,18 +3,19 @@ package progettoP2;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class PDA implements AbstractAutoma {
+public abstract class PDA implements AbstractAutoma {
 	protected ArrayList<StatoPDA> stati;
     protected StatoPDA partenza; 
 	protected PDA(){
-		
+		stati = new ArrayList<StatoPDA>();
 	}
 	protected PDA(StatoPDA s){
     	partenza = s;
+    	stati = new ArrayList<StatoPDA>();
     }
+	
 	@Override
-	public Boolean start(String s) {
-		
+	public Boolean start(String s) {		
 		return null;
 	}
 
@@ -27,9 +28,9 @@ public class PDA implements AbstractAutoma {
 	@Override
 	public void removeState(String s) {
 		Boolean eliminato = false;
-	    for(Iterator<StatoPDA> i = stati.iterator();  i.hasNext() && !eliminato;)
+	    for(int i = 0; i<stati.size() && !eliminato; i++)
 	    {
-	        if(i.next().getNome() == s)
+	        if(stati.get(i).getNome() == s)
 	        {
 	            if(partenza.getNome() == s)
 	                partenza = null;
@@ -44,11 +45,15 @@ public class PDA implements AbstractAutoma {
 		partenza = getStato(s);
 	}
 	
-	public StatoPDA getStato(final String s){		
-		Iterator<StatoPDA> i = stati.iterator();		
-	    while(i.hasNext() && i.next().getNome() != s){}
-	    return i.next(); 
+	public StatoPDA getStato(final String s){	
+		for(StatoPDA tmp : stati){
+			if(s == tmp.getNome()){
+				return tmp;
+			}
+		}
+		return null;		 
 	}
+	
 	public StatoPDA operatorBarraBarra(final String s){
 		return getStato(s);
 	}
@@ -57,14 +62,13 @@ public class PDA implements AbstractAutoma {
 	public void renameState(final String oldName, final String newName) {
 		StatoPDA s = null;
 	    Boolean trovato = false;
-	    for(StatoPDA i : stati)
+	    for(int i = 0 ; i < stati.size() && !trovato; i++)
 	    {
-	        if(i.getNome() == newName){
+	        if(stati.get(i).getNome() == newName){
 	            trovato = true;
-	            break;
 	        }
-	        else if(i.getNome() == oldName){
-	            s = i;
+	        else if(stati.get(i).getNome() == oldName){
+	            s = stati.get(i);
 	        }
 	    }
 	    if(!trovato && s != null)

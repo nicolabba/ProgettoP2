@@ -8,7 +8,7 @@ public class NPDA extends PDA{
 	    Boolean presente;
 	    for (int i = 0; i<s.nTrans(); i++)
 	    {
-	        if(s.operatorBarraBarra(i).getInput() == '\0')
+	        if(s.operatorBarraBarra(i).getInput() == '\u0000')
 	        {
 	            presente = false;
 	            for(int j = 0; j < curr.size() && !presente; j++)
@@ -66,10 +66,10 @@ public class NPDA extends PDA{
 	                
 	                if(tempTrans.getInput() == input.charAt(0) 
 	                		&& (tempTrans.getHead() == stack.charAt(0)
-	                				|| tempTrans.getHead() == '\0'))
+	                				|| tempTrans.getHead() == '\u0000'))
 	                {
 	                    tempStack = stack;
-	                    if(tempTrans.getHead() != '\0')
+	                    if(tempTrans.getHead() != '\u0000')
 	                    {
 	                        tempStack = tempStack.substring(1,tempStack.length()-1);
 	                        if(tempTrans.getNewHead().length() != 0)
@@ -85,7 +85,6 @@ public class NPDA extends PDA{
 	                    }
 	                    if(check((StatoPDA) tempTrans.getDest(),input.substring(1,input.length()-1),tempStack))
 	                        return true;
-	                    //delete tempTrans;
 	                }
 	            }
 	        }
@@ -94,10 +93,11 @@ public class NPDA extends PDA{
 	}
 	
 	public NPDA(){
-		
+		chiusure = new ArrayList<ArrayList<String>>();
 	}
 	public NPDA(StatoPDA s){
 		super(s);
+		chiusure = new ArrayList<ArrayList<String>>();
 	}
 	public Boolean start(final String input){
 		 updateChiusure();
