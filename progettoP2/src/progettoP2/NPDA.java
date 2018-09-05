@@ -69,8 +69,8 @@ public class NPDA extends PDA{
 	                tempTrans = (TransizionePDA) chiusuraCorr.get(i).operatorBarraBarra(t);
 	                
 	                if(tempTrans.getInput() == input.charAt(0) 
-	                		&& (tempTrans.getHead() == stack.charAt(0)
-	                				|| tempTrans.getHead() == epsilon))
+	                		&& ((stack.length() != 0 && (tempTrans.getHead()) == stack.charAt(0)
+	                	|| tempTrans.getHead() == epsilon)))
 	                {
 	                    tempStack = stack;
 	                    if(tempTrans.getHead() != epsilon)
@@ -84,8 +84,8 @@ public class NPDA extends PDA{
 	                        }
 	                    }
 	                    else if(tempTrans.getNewHead().length() == 1)
-	                    {
-	                        tempStack = tempTrans.getNewHead().charAt(0) + tempStack;
+	                    {	                    
+	                    	tempStack = tempTrans.getNewHead().charAt(0) + tempStack;
 	                    }
 	                    if(check((StatoPDA) tempTrans.getDest(),input.substring(1),tempStack))
 	                        return true;
@@ -114,7 +114,7 @@ public class NPDA extends PDA{
 	public Boolean start(final String input){
 		 updateChiusure();
 	    if(partenza != null)
-	        return check(partenza, input, "e");
+	        return check(partenza, input, "");
 	    else
 	        return false;
 	}
