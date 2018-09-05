@@ -63,6 +63,21 @@ MainWindow::MainWindow(QWidget *parent) :
     opLayout->addWidget(start,1);
     opLayout->addStretch(1);
 
+    //testing
+    view->reset(AutomaGraphicsView::AutomaType::PDA,"",'e');
+    view->addStato("s",false,true,50,100);
+    view->addStato("p",false,false,150,100);
+    view->addStato("q",false,false,250,100);
+    view->addStato("r",true,false,250,200);
+    view->addTransizione("s","p",'e','e',"Z");
+    view->addTransizione("p","p",'0','Z',"AZ");
+    view->addTransizione("p","p",'0','A',"AA");
+    view->addTransizione("p","q",'e','e',"e");
+    view->addTransizione("q","q",'1','A',"e");
+    view->addTransizione("q","r",'e','Z',"Z");
+    check->append("0011");
+    this->start();
+    //testing
 
     setLayout(layout);
 }

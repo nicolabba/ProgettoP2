@@ -4,6 +4,7 @@ PDA::PDA(char epsilon, StatoPDA *s):epsilon(epsilon)
 {
     partenza = s;
     stati = new std::list<StatoPDA*>();
+    chiusure = new std::list<std::list<std::string>*>();
 }
 
 StatoPDA *PDA::getStato(const std::string& s)
@@ -175,6 +176,34 @@ bool PDA::check(StatoPDA * s, const std::string & input, const std::string& stac
             for(std::list<StatoPDA*>::iterator i = chiusuraCorr->begin(); i != chiusuraCorr->end(); i++)
                 if((*i)->isFinale())
                     return true;
+        for(std::list<StatoPDA*>::iterator i = chiusuraCorr->begin(); i != chiusuraCorr->end(); i++)
+        {
+            for(int t = 0; t < (*i)->nTrans(); t++)
+            {
+                tempTrans = static_cast<TransizionePDA*>((*i)->operator [](t));
+                if(tempTrans->getInput() == epsilon && tempTrans->getHead() == stack[0])
+                {
+                    tempStack = stack;
+                    if(tempTrans->getHead() != epsilon)
+                    {
+                        tempStack = tempStack.substr(1,tempStack.length()-1);
+                        if(tempTrans->getNewHead()[0] != epsilon) // !!!!!
+                        {
+                            tempStack = tempTrans->getNewHead() + tempStack;
+                        }
+                    }
+                    else //if(tempTrans->getNewHead().length() >= 1)
+                    {
+                        if(tempTrans->getNewHead()[0] != epsilon) // !!!!!
+                        {
+                            tempStack = tempTrans->getNewHead()[0] + tempStack;
+                        }
+                    }
+                    if(check(dynamic_cast<StatoPDA*>(tempTrans->getDest()),tempTrans->getInput()==epsilon?input:input.substr(1,input.length()-1),tempStack))
+                        return true;
+                }
+            }
+        }
     }
     else
     {
@@ -183,24 +212,25 @@ bool PDA::check(StatoPDA * s, const std::string & input, const std::string& stac
             for(int t = 0; t < (*i)->nTrans(); t++)
             {
                 tempTrans = static_cast<TransizionePDA*>((*i)->operator [](t));
-                if(tempTrans->getInput() == input[0] && (tempTrans->getHead() == stack[0] || tempTrans->getHead() == epsilon))
+                if((tempTrans->getInput() == input[0] && tempTrans->getHead() == stack[0]) || tempTrans->getHead() == epsilon)
                 {
                     tempStack = stack;
                     if(tempTrans->getHead() != epsilon)
                     {
                         tempStack = tempStack.substr(1,tempStack.length()-1);
-                        if(tempTrans->getNewHead().length() != 0)
+                        if(tempTrans->getNewHead()[0] != epsilon) // !!!!!
                         {
-                            tempStack = tempTrans->getNewHead()[0] + tempStack;
-                            if(tempTrans->getNewHead().length() == 2)
-                                tempStack = tempTrans->getNewHead()[1] + tempStack;
+                            tempStack = tempTrans->getNewHead() + tempStack;
                         }
                     }
                     else if(tempTrans->getNewHead().length() == 1)
                     {
-                        tempStack = tempTrans->getNewHead()[0] + tempStack;
+                        if(tempTrans->getNewHead()[0] != epsilon) // !!!!!
+                        {
+                            tempStack = tempTrans->getNewHead()[0] + tempStack;
+                        }
                     }
-                    if(check(dynamic_cast<StatoPDA*>(tempTrans->getDest()),input.substr(1,input.length()-1),tempStack))
+                    if(check(dynamic_cast<StatoPDA*>(tempTrans->getDest()),tempTrans->getInput()==epsilon?input:input.substr(1,input.length()-1),tempStack))
                         return true;
                     //delete tempTrans;
                 }

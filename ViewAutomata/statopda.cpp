@@ -2,15 +2,14 @@
 
 StatoPDA::StatoPDA(const std::string & nome, const bool& finale):Stato(nome,finale)
 {
-
+    trans = new std::vector<TransizionePDA*>();
 }
 
 TransizionePDA *StatoPDA::getTrans(StatoPDA * stato, const char & input, const char & head, const std::string& newHead)
 {
     std::vector<TransizionePDA*>::iterator i;
     for(i = trans->begin(); i != trans->end() && ((*i)->getDest() != stato || (*i)->getInput() != input ||
-                             (*i)->getHead() != head || (*i)->getNewHead()[0] != newHead[0] ||
-                             (*i)->getNewHead()[1] != newHead[1]); i++);
+                             (*i)->getHead() != head || (*i)->getNewHead() != newHead); i++);
     if(i == trans->end())
         return nullptr;
     else
