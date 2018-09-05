@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public class NPDA extends PDA{
 	private ArrayList<ArrayList<String>> chiusure;
+	private char epsilon; 
+	
 	private void supportChiusure(ArrayList<String> curr , Stato s ){
 	    Boolean presente;
 	    for (int i = 0; i<s.nTrans(); i++)
 	    {
-	        if(s.operatorBarraBarra(i).getInput() == '\u0000')
+	        if(s.operatorBarraBarra(i).getInput() == epsilon)
 	        {
 	            presente = false;
 	            for(int j = 0; j < curr.size() && !presente; j++)
@@ -24,6 +26,7 @@ public class NPDA extends PDA{
 	        }
 	    }
 	}
+	
 	private void updateChiusure(){
 		ArrayList<String> curr;
 	    chiusure.clear();
@@ -35,6 +38,7 @@ public class NPDA extends PDA{
 	        chiusure.add(curr);
 	    }
 	}
+	
 	private Boolean check(StatoPDA s, final String input, final String stack){
 	    String tempStack;
 	    TransizionePDA tempTrans;
@@ -66,12 +70,12 @@ public class NPDA extends PDA{
 	                
 	                if(tempTrans.getInput() == input.charAt(0) 
 	                		&& (tempTrans.getHead() == stack.charAt(0)
-	                				|| tempTrans.getHead() == '\u0000'))
+	                				|| tempTrans.getHead() == epsilon))
 	                {
 	                    tempStack = stack;
-	                    if(tempTrans.getHead() != '\u0000')
+	                    if(tempTrans.getHead() != epsilon)
 	                    {
-	                        tempStack = tempStack.substring(1,tempStack.length()-1);
+	                        tempStack = tempStack.substring(1);
 	                        if(tempTrans.getNewHead().length() != 0)
 	                        {
 	                            tempStack = tempTrans.getNewHead().charAt(0) + tempStack;
@@ -83,7 +87,7 @@ public class NPDA extends PDA{
 	                    {
 	                        tempStack = tempTrans.getNewHead().charAt(0) + tempStack;
 	                    }
-	                    if(check((StatoPDA) tempTrans.getDest(),input.substring(1,input.length()-1),tempStack))
+	                    if(check((StatoPDA) tempTrans.getDest(),input.substring(1),tempStack))
 	                        return true;
 	                }
 	            }
@@ -95,15 +99,31 @@ public class NPDA extends PDA{
 	public NPDA(){
 		chiusure = new ArrayList<ArrayList<String>>();
 	}
+	
 	public NPDA(StatoPDA s){
 		super(s);
 		chiusure = new ArrayList<ArrayList<String>>();
 	}
+	
+	public NPDA(StatoPDA s, char eps){
+		super(s);
+		chiusure = new ArrayList<ArrayList<String>>();
+		epsilon = eps;
+	}
+	
 	public Boolean start(final String input){
 		 updateChiusure();
 	    if(partenza != null)
-	        return check(partenza, input, "");
+	        return check(partenza, input, "e");
 	    else
 	        return false;
+	}
+
+	public char getEpsilon() {
+		return epsilon;
+	}
+
+	public void setEpsilon(char epsilon) {
+		this.epsilon = epsilon;
 	}
 }
