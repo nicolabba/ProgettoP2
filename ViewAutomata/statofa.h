@@ -9,7 +9,7 @@
 class StatoFA : public Stato
 {
 private:
-    std::vector<Transizione*> trans;
+    std::vector<Transizione*>* trans;
 public:
     StatoFA(const std::string&, const bool& = false);
     Transizione* getTrans(StatoFA *, const char&);

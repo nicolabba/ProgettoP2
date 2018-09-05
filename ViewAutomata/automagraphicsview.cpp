@@ -1,7 +1,7 @@
 #include "automagraphicsview.h"
 #include "dfa.h"
 #include "nfa.h"
-#include "npda.h"
+#include "pda.h"
 #include <QResizeEvent>
 #include <QGraphicsItem>
 #include "statodialog.h"
@@ -27,7 +27,7 @@ AutomaGraphicsView::AutomaType AutomaGraphicsView::getCurrentType() const
 void AutomaGraphicsView::addStato(const std::string & nome, bool finale, bool iniziale, int left, int top)
 {
     FA* a;
-    NPDA* b;
+    class PDA* b;
     switch(currentType)
     {
     case NFA:
@@ -37,7 +37,7 @@ void AutomaGraphicsView::addStato(const std::string & nome, bool finale, bool in
         stati.push_back(new StatoGraphicsItem(a->getStato(nome)));
         break;
     case PDA:
-        b = static_cast<NPDA*>(automa);
+        b = static_cast<class PDA*>(automa);
         b->addStato(nome, finale);
         stati.push_back(new StatoGraphicsItem(b->getStato(nome)));
         break;
@@ -52,7 +52,7 @@ void AutomaGraphicsView::removeStato(const std::string & nome)
 {
 
     FA* a;
-    NPDA* b;
+    class PDA* b;
     Stato* temp;
     switch(currentType)
     {
@@ -62,7 +62,7 @@ void AutomaGraphicsView::removeStato(const std::string & nome)
         temp = a->getStato(nome);
         break;
     case PDA:
-        b = static_cast<NPDA*>(automa);
+        b = static_cast<class PDA*>(automa);
         temp = b->getStato(nome);
         break;
     }
@@ -109,7 +109,7 @@ void AutomaGraphicsView::setStartingState(const std::string & nome)
 void AutomaGraphicsView::setFinal(const std::string & nome, bool val)
 {
     FA* a;
-    NPDA* b;
+    class PDA* b;
     Stato* temp;
     switch(currentType)
     {
@@ -119,7 +119,7 @@ void AutomaGraphicsView::setFinal(const std::string & nome, bool val)
         temp = a->getStato(nome);
         break;
     case PDA:
-        b = static_cast<NPDA*>(automa);
+        b = static_cast<class PDA*>(automa);
         temp = b->getStato(nome);
         break;
     }
@@ -156,7 +156,7 @@ std::string AutomaGraphicsView::getAlphabet() const
 char AutomaGraphicsView::getEpsilon() const
 {
     class NFA* tempN;
-    class NPDA* tempP;
+    class PDA* tempP;
     if(currentType == NFA)
     {
         tempN = dynamic_cast<class NFA*>(automa);
@@ -164,7 +164,7 @@ char AutomaGraphicsView::getEpsilon() const
     }
     if(currentType == PDA)
     {
-        tempP = dynamic_cast<class NPDA*>(automa);
+        tempP = dynamic_cast<class PDA*>(automa);
         return tempP->getEpsilon();
     }
     return '\0';
@@ -173,7 +173,7 @@ char AutomaGraphicsView::getEpsilon() const
 void AutomaGraphicsView::setEpsilon(char val) const
 {
     class NFA* tempN;
-    class NPDA* tempP;
+    class PDA* tempP;
     if(currentType == NFA)
     {
         tempN = dynamic_cast<class NFA*>(automa);
@@ -181,7 +181,7 @@ void AutomaGraphicsView::setEpsilon(char val) const
     } else
         if(currentType == PDA)
         {
-            tempP = dynamic_cast<class NPDA*>(automa);
+            tempP = dynamic_cast<class PDA*>(automa);
             tempP->setEpsilon(val);
         }
 }
@@ -200,7 +200,7 @@ void AutomaGraphicsView::reset(AutomaGraphicsView::AutomaType type, std::string 
         break;
     case DFA: automa = new class DFA(alphabet);
         break;
-    case PDA: automa = new class NPDA(epsilon);
+    case PDA: automa = new class PDA(epsilon);
         break;
     }
 }
@@ -216,7 +216,7 @@ void AutomaGraphicsView::update()
 bool AutomaGraphicsView::doesStatoExist(const std::string & nome) const
 {
     FA* a;
-    NPDA* b;
+    class PDA* b;
     bool ret;
     switch(currentType)
     {
@@ -226,7 +226,7 @@ bool AutomaGraphicsView::doesStatoExist(const std::string & nome) const
         ret = a->getStato(nome);
         break;
     case PDA:
-        b = static_cast<NPDA*>(automa);
+        b = static_cast<class PDA*>(automa);
         ret = b->getStato(nome);
         break;
     }
@@ -260,7 +260,7 @@ void AutomaGraphicsView::removeTransizioni(const std::string & from, const std::
 {
     TransizionePDA* temp;
     FA* a;
-    NPDA* b;
+    class PDA* b;
     StatoFA* tempSFA;
     StatoPDA* tempSPDA;
     bool eliminato = false;
@@ -284,7 +284,7 @@ void AutomaGraphicsView::removeTransizioni(const std::string & from, const std::
             }
         break;
     case PDA:
-        b = static_cast<NPDA*>(automa);
+        b = static_cast<class PDA*>(automa);
         tempSPDA = b->getStato(from);
         for(QVector<TransizioneGraphicsItem*>::iterator i = transizioni.begin(); !eliminato && i != transizioni.end(); i++)
             if((*i)->da->getStato()->getNome() == from && (*i)->a->getStato()->getNome() == to)
@@ -467,19 +467,19 @@ void AutomaGraphicsView::addTransizione(const std::string & from, const std::str
 {
     Transizione *temp = nullptr;
     FA* a;
-    NPDA* b;
-    StatoFA* tempDa1,*tempA1;
-    StatoPDA* tempDa2,*tempA2;
+    class PDA* b;
     switch(currentType)
     {
     case NFA:
     case DFA:
         a = dynamic_cast<FA*>(automa);
         a->addTransizione(from,to,input);
+        temp = a->getStato(from)->getTrans(a->getStato(to),input);
         break;
     case PDA:
-        b = static_cast<NPDA*>(automa);
+        b = static_cast<class PDA*>(automa);
         b->addTransizione(from,to,input,head,newHead);
+        temp = b->getStato(from)->getTrans(b->getStato(to),input,head,newHead);
         break;
     }
     if(temp)
@@ -518,7 +518,7 @@ void AutomaGraphicsView::removeTransizione(const std::string & from, const std::
     bool eliminato = false;
     Transizione* temp;
     FA* a;
-    NPDA* b;
+    class PDA* b;
     StatoFA* tempSFA;
     StatoPDA* tempSPDA;
     switch(currentType)
@@ -546,7 +546,7 @@ void AutomaGraphicsView::removeTransizione(const std::string & from, const std::
         tempSFA->remove(a->getStato(to),input);
         break;
     case PDA:
-        b = static_cast<NPDA*>(automa);
+        b = static_cast<class PDA*>(automa);
         tempSPDA = b->getStato(from);
         temp = tempSPDA->getTrans(b->getStato(to),input, head, newHead);
         for(QVector<TransizioneGraphicsItem*>::iterator i = transizioni.begin(); i != transizioni.end() && !eliminato; i++)

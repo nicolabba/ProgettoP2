@@ -53,9 +53,9 @@ void DFA::setAlfabeto(const std::string &alfabeto)
 
 bool DFA::start(const std::string& input)
 {
-    for(std::list<StatoFA>::iterator i = stati.begin(); i!= stati.end(); i++)
+    for(std::list<StatoFA*>::iterator i = stati->begin(); i!= stati->end(); i++)
     {
-        if(!checkAlfa(&*i))
+        if(!checkAlfa(*i))
             return false;
     }
     return check(partenza,input);

@@ -8,7 +8,7 @@
 class FA : public AbstractAutoma
 {
 protected:
-    std::list<StatoFA> stati;
+    std::list<StatoFA*>* stati;
     FA(StatoFA* = nullptr);
 public:
     StatoFA* getStato(const std::string &);

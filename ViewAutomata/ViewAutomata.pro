@@ -29,7 +29,6 @@ SOURCES += \
     abstractautoma.cpp \
     dfa.cpp \
     fa.cpp \
-    npda.cpp \
     pda.cpp \
     stato.cpp \
     statofa.cpp \
@@ -51,7 +50,6 @@ HEADERS += \
     dfa.h \
     fa.h \
     nfa.h \
-    npda.h \
     pda.h \
     stato.h \
     statofa.h \

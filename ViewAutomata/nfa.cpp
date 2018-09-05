@@ -10,7 +10,7 @@ void NFA::setEpsilon(char value)
     epsilon = value;
 }
 
-void NFA::supportChiusure(std::list<std::string> & curr, Stato* s)
+void NFA::supportChiusure(std::list<std::string> * curr, Stato* s)
 {
     bool presente;
     for (int i = 0; i<s->nTrans(); i++)
@@ -18,14 +18,14 @@ void NFA::supportChiusure(std::list<std::string> & curr, Stato* s)
         if((*s)[i]->getInput() == epsilon)
         {
             presente = false;
-            for(std::list<std::string>::iterator j = curr.begin(); j!=curr.end() && !presente; j++)
+            for(std::list<std::string>::iterator j = curr->begin(); j!=curr->end() && !presente; j++)
             {
                 if(*j == (*s)[i]->getDest()->getNome())
                     presente = true;
             }
             if(!presente)
             {
-                curr.push_back((*s)[i]->getDest()->getNome());
+                curr->push_back((*s)[i]->getDest()->getNome());
                 supportChiusure(curr,(*s)[i]->getDest());
             }
         }
@@ -34,25 +34,25 @@ void NFA::supportChiusure(std::list<std::string> & curr, Stato* s)
 
 void NFA::updateChiusure()
 {
-    std::list<std::string> curr;
-    chiusure.clear();
-    for (std::list<StatoFA>::iterator i = stati.begin(); i != stati.end(); i++)
+    std::list<std::string>* curr;
+    chiusure->clear();
+    for (std::list<StatoFA*>::iterator i = stati->begin(); i != stati->end(); i++)
     {
-        curr = std::list<std::string>();
-        curr.push_back(i->getNome());
-        supportChiusure(curr,&*i);
-        chiusure.push_back(curr);
+        curr = new std::list<std::string>();
+        curr->push_back((*i)->getNome());
+        supportChiusure(curr,*i);
+        chiusure->push_back(curr);
     }
 }
 
 bool NFA::check(StatoFA* s, const std::string& input)
 {
     std::list<StatoFA> chiusuraCorr = std::list<StatoFA>();
-    for(std::list<std::list<std::string>>::iterator i = chiusure.begin(); i != chiusure.end(); i++)
+    for(std::list<std::list<std::string>*>::iterator i = chiusure->begin(); i != chiusure->end(); i++)
     {
-        if(i->front() == s->getNome())
+        if((*i)->front() == s->getNome())
         {
-            for(std::list<std::string>::iterator j = i->begin(); j != i->end(); j++)
+            for(std::list<std::string>::iterator j = (*i)->begin(); j != (*i)->end(); j++)
             {
                 chiusuraCorr.push_back(*getStato(*j));
             }
@@ -85,7 +85,7 @@ bool NFA::check(StatoFA* s, const std::string& input)
 
 NFA::NFA(char epsilon, StatoFA * partenza):FA(partenza), epsilon(epsilon)
 {
-    chiusure = std::list<std::list<std::string>>();
+    chiusure = new std::list<std::list<std::string>*>();
 }
 
 bool NFA::start(const std::string& input)

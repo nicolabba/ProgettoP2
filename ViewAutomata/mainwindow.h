@@ -26,6 +26,7 @@ private slots:
     void addStato();
     void addTransizione();
     void editAutoma();
+    void resetResults();
 };
 
 #endif // MAINWINDOW_H

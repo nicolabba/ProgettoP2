@@ -7,8 +7,8 @@ class NFA : public FA
 {
 private:
     char epsilon;
-    std::list<std::list<std::string>> chiusure;
-    void supportChiusure(std::list<std::string> &, Stato*);
+    std::list<std::list<std::string>*>* chiusure;
+    void supportChiusure(std::list<std::string> *, Stato*);
     void updateChiusure();
     bool check(StatoFA*, const std::string&);
 public:

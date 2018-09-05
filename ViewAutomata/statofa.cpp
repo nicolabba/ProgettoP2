@@ -2,36 +2,36 @@
 
 StatoFA::StatoFA(const std::string & nome, const bool& finale):Stato(nome,finale)
 {
-
+    trans = new std::vector<Transizione*>();
 }
 
 Transizione *StatoFA::getTrans(StatoFA * stato, const char & input)
 {
-    unsigned int j = 0;
-    while(j<trans.size() && (trans[j]->getDest() != stato || trans[j]->getInput() != input))
-        j++;
-    if(j == trans.size())
+    std::vector<Transizione*>::iterator i;
+    for(i = trans->begin(); i != trans->end() && ((*i)->getDest() != stato || (*i)->getInput() != input); i++);
+
+    if(i == trans->end())
         return nullptr;
     else
-        return trans[j];
+        return (*i);
 }
 
 void StatoFA::add(StatoFA * stato, const char & input)
 {
     if(getTrans(stato,input) == nullptr)
     {
-        trans.push_back(new Transizione(stato,input));
+        trans->push_back(new Transizione(stato,input));
     }
 }
 
 void StatoFA::remove(StatoFA * stato, const char & input)
 {
     bool eliminato = false;
-    for(std::vector<Transizione*>::iterator j = trans.begin();  j != trans.end() && !eliminato; j++)
+    for(std::vector<Transizione*>::iterator j = trans->begin();  j != trans->end() && !eliminato; j++)
     {
         if((*j)->getDest() == stato && (*j)->getInput() == input)
         {
-            trans.erase(j);
+            trans->erase(j);
             eliminato = true;
         }
     }
@@ -39,11 +39,11 @@ void StatoFA::remove(StatoFA * stato, const char & input)
 
 int StatoFA::nTrans()
 {
-    return trans.size();
+    return trans->size();
 }
 
 Transizione *StatoFA::operator [](int i)
 {
-    return trans[i];
+    return trans->at(i);
 }
 

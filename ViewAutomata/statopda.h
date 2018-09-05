@@ -10,7 +10,7 @@ class TransizionePDA;
 class StatoPDA : public Stato
 {
 private:
-    std::vector<TransizionePDA*> trans;
+    std::vector<TransizionePDA*>* trans;
 public:
     StatoPDA(const std::string &, const bool& = false);
     TransizionePDA *getTrans(StatoPDA*, const char&,const char&,const std::string&);

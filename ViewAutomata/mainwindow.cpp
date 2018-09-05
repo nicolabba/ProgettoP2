@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addLayout(opLayout,0);
 
     check = new QTextEdit(this);
+    connect(check,SIGNAL(textChanged()), this,SLOT(resetResults()));
     checkLayout->addWidget(check,0);
 
     QString opStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:35px; height:35px } QToolTip{border:none; background-color:#f0f0f0}";
@@ -95,7 +96,7 @@ void MainWindow::addStato()
             else
             {
                 std::string nome = win->getInput().toStdString();
-                view->addStato(nome, win->getFinale(),win->getIniziale());
+                view->addStato(nome, win->getFinale(),win->getIniziale(),50,50);
             }
         }
     }while(error);
@@ -165,6 +166,11 @@ void MainWindow::editAutoma()
         }
     }
     delete win;
+}
+
+void MainWindow::resetResults()
+{
+    check->setExtraSelections(QList<QTextEdit::ExtraSelection>());
 }
 
 void MainWindow::start()
