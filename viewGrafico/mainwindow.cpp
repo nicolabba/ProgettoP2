@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <qcustomplot.h>
 #include <grafico.h>
 #include <iostream>
 #include <string.h>
@@ -19,16 +18,16 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     g = new Grafico();
     lineX = new QLineEdit();
     lineY = new QLineEdit();
-    viewData = new QTableView();
-    viewPoints = new QTableView();//x e y list table
-    viewPoints->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(viewPoints, SIGNAL(customContextMenuRequested(QPoint)),
+    twTopData = new QTableView();
+    twPoints = new QTableView();//x e y list table
+    twPoints->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(twPoints, SIGNAL(customContextMenuRequested(QPoint)),
              SLOT(customMenuRequested(QPoint)));
 
     QStandardItemModel *model = new QStandardItemModel();
     model->setHorizontalHeaderLabels(QStringList{"X","Y"});
-    viewPoints->setModel(model);    
-    viewPoints->verticalScrollBar()->setStyleSheet("QScrollBar,QScrollBar::up-arrow,QScrollBar::down-arrow,QScrollBar::add-line,QScrollBar::sub-line{background:#e8e8e8;border:none;} QScrollBar::handle{background:#86ff86;border:none;}");
+    twPoints->setModel(model);
+    twPoints->verticalScrollBar()->setStyleSheet("QScrollBar,QScrollBar::up-arrow,QScrollBar::down-arrow,QScrollBar::add-line,QScrollBar::sub-line{background:#e8e8e8;border:none;} QScrollBar::handle{background:#86ff86;border:none;}");
 
     //TEXTBOX
     lineX->setValidator(new QDoubleValidator());
@@ -58,28 +57,30 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     //FRAME FOR DATA(Area,Min,Max, ecc..)
     QFrame *dataFrame = new QFrame();
     QHBoxLayout *dataLay = new QHBoxLayout(dataFrame);
-    viewData->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    viewData->verticalHeader()->setVisible(false);
-    viewData->setSelectionMode(QAbstractItemView::NoSelection);
-    viewData->setMaximumHeight(viewData->verticalHeader()->height()*1.5 + viewData->horizontalHeader()->height());
-    viewData->horizontalScrollBar()->setVisible(false);    
-    viewData->setStyleSheet("border:none;");
-    dataLay->addWidget(viewData);
+    twTopData->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    twTopData->verticalHeader()->setVisible(false);
+    twTopData->setSelectionMode(QAbstractItemView::NoSelection);
+    twTopData->setMaximumHeight(twTopData->verticalHeader()->height()*1.5 + twTopData->horizontalHeader()->height());
+    twTopData->horizontalScrollBar()->setVisible(false);
+    twTopData->setStyleSheet("border:none;");
+    dataLay->addWidget(twTopData);
 
     QFrame *botFrame = new QFrame();
     QHBoxLayout *botLay = new QHBoxLayout(botFrame);
     botLay->setSpacing(1);
     chart = new QChartView();
     chart->setRenderHint(QPainter::Antialiasing);       
-    refresh();
-    viewPoints->verticalHeader()->setVisible(false);
-    viewPoints->setStyleSheet("border:none;");
-    viewPoints->horizontalScrollBar()->setVisible(false);
-    viewPoints->setColumnWidth(0,(this->width()-20)/8);
-    viewPoints->setColumnWidth(1,(this->width()-20)/8);
+    refreshGraph();
+    twPoints->verticalHeader()->setVisible(false);
+    twPoints->setStyleSheet("border:none;");
+    twPoints->horizontalScrollBar()->setVisible(false);
+    twPoints->setColumnWidth(0,(this->width()-20)/8);
+    twPoints->setColumnWidth(1,(this->width()-20)/8);
+    twPoints->setSelectionBehavior( QAbstractItemView::SelectItems );
+    twPoints->setSelectionMode( QAbstractItemView::SingleSelection );
     botLay->addWidget(chart);
-    botLay->addWidget(viewPoints);
-    botLay->setStretchFactor(viewPoints,1);
+    botLay->addWidget(twPoints);
+    botLay->setStretchFactor(twPoints,1);
     botLay->setStretchFactor(chart,4);
 
     //MAIN LAYOUT
@@ -110,16 +111,16 @@ void MainWindow::qtbaddClick()
 {
     double nx = lineX->text().toDouble(), ny = lineY->text().toDouble();
     if(g->insert(Punto(nx,ny))){
-        dynamic_cast<QStandardItemModel*>(viewPoints->model())->
+        dynamic_cast<QStandardItemModel*>(twPoints->model())->
                 appendRow(QList<QStandardItem*>{
                               new QStandardItem(lineX->text()),new QStandardItem(lineY->text())
                           });
-        refresh();
-        refreshTable();
+        refreshGraph();
+        refreshTopTable();
     }
 }
 
-void MainWindow::refresh()
+void MainWindow::refreshGraph()
 {
     QChart* c = new QChart();
     QScatterSeries *ss = new QScatterSeries();
@@ -157,9 +158,10 @@ void MainWindow::refresh()
     c->axisX()->setMin(minx);
     c->axisY()->setMin(miny);
     c->legend()->hide();
-    chart->setChart(c);  
+    chart->setChart(c);
 }
-void MainWindow::refreshTable()
+
+void MainWindow::refreshTopTable()
 {
     std::string result = std::to_string(g->getArea());
     QStandardItemModel *model = new QStandardItemModel(1,4);
@@ -174,17 +176,18 @@ void MainWindow::refreshTable()
     p = g->getMin();
     result = std::to_string(p->getX()).append(",").append(std::to_string(p->getY()));
     model->setItem(0,3,new QStandardItem(QString::fromStdString(result)));
-    viewData->setModel(model);
-    viewData->setColumnWidth(0, (this->width()-20)/4);
-    viewData->setColumnWidth(1, (this->width()-20)/4);
-    viewData->setColumnWidth(2, (this->width()-20)/4);
-    viewData->setColumnWidth(3, (this->width()-20)/4);
+    twTopData->setModel(model);
+    twTopData->setRowHeight(0,40);
+    twTopData->setColumnWidth(0, (this->width()-20)/4);
+    twTopData->setColumnWidth(1, (this->width()-20)/4);
+    twTopData->setColumnWidth(2, (this->width()-20)/4);
+    twTopData->setColumnWidth(3, (this->width()-20)/4);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {    
-    refresh();
-    refreshTable();
+    refreshGraph();
+    refreshTopTable();
     event->accept();
 }
 
@@ -196,10 +199,28 @@ void MainWindow::qpointClick(QPointF p){
 }
 
 void MainWindow::customMenuRequested(QPoint pos){
-    QModelIndex index= viewPoints->indexAt(pos);
-
     QMenu *menu=new QMenu(this);
-    menu->addAction(new QAction("Modifica", this));
-    menu->addAction(new QAction("Elimina", this));
-    menu->popup(viewPoints->viewport()->mapToGlobal(pos));
+    QAction *act1 = new QAction("Modifica", this);
+    QAction *act2 = new QAction("Elimina", this);
+    connect(act1, SIGNAL(triggered(bool)), this, SLOT(btModifica()));
+    connect(act2, SIGNAL(triggered(bool)), this, SLOT(btElimina()));
+    menu->setStyleSheet("QMenu::item::selected {background-color: lightgreen;}");
+    menu->addAction(act1);
+    menu->addAction(act2);
+    menu->popup(twPoints->viewport()->mapToGlobal(pos));
+}
+
+void MainWindow::btModifica(){
+    QMessageBox::information(this,tr(""),tr("Slot working?") );
+}
+
+void MainWindow::btElimina(){
+    int r = twPoints->selectionModel()->currentIndex().row();
+    QModelIndex index1 = twPoints->model()->index(r, 0, QModelIndex());
+    QModelIndex index2 = twPoints->model()->index(r, 1, QModelIndex());
+    auto mx = twPoints->model()->data(index1).toString().toDouble();
+    auto my = twPoints->model()->data(index2).toString().toDouble();
+    g->remove(Punto(mx,my));
+    twPoints->model()->removeRow(r);
+    refreshGraph();
 }
