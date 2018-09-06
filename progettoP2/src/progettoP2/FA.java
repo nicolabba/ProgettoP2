@@ -28,6 +28,7 @@ public abstract class FA implements AbstractAutoma{
 	    	return null;
 	    }
 	}
+	
 	public StatoFA operatorBarraBarra(final String s){
 		return getStato(s);
 	}
@@ -36,11 +37,13 @@ public abstract class FA implements AbstractAutoma{
 	public Boolean start(String s) {
 		return false;
 	}
+	
 	@Override
 	public void addState(String s) {
 		 if(getStato(s) == null)
 	            stati.add(new StatoFA(s));
 	}
+	
 	@Override
 	public void removeState(String s) {
 	
@@ -53,8 +56,7 @@ public abstract class FA implements AbstractAutoma{
 	                temp.remove(((StatoFA)t.getDest()), t.getInput());
 	            }
 	        }
-	    }
-	    
+	    }	    
 	    
 	    for(StatoFA i : stati)
 	    {
@@ -67,11 +69,13 @@ public abstract class FA implements AbstractAutoma{
 	        }
 	    }
 	}
+	
 	@Override
 	public void setStartingState(String s) {
 		partenza = getStato(s);
 		
 	}
+	
 	@Override
 	public void renameState(String oldName, String newName) {
 		StatoFA s = null;
@@ -88,9 +92,9 @@ public abstract class FA implements AbstractAutoma{
 	    if(!trovato && s != null)
 	    {
 	        s.rename(newName);
-	    }
-		
+	    }		
 	}
+	
 	@Override
 	public Stato getStartingState() {
 		return partenza;
