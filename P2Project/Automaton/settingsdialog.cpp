@@ -19,7 +19,7 @@ QChar SettingsDialog::getEpsilon() const
     return epsilon;
 }
 
-SettingsDialog::SettingsDialog(QWidget * parent, Qt::WindowFlags f, AutomatonGraphicsView::AutomaType type, QString alphabet, QChar epsilon):QDialog(parent,f),type(type),alphabet(alphabet),epsilon(epsilon)
+SettingsDialog::SettingsDialog(QWidget * parent, Qt::WindowFlags f, AutomatonGraphicsView::AutomaType type, const QString& alphabet, const QChar& epsilon):QDialog(parent,f),type(type),alphabet(alphabet),epsilon(epsilon)
 {
     this->setModal(true);
     this->setFixedSize(200,240);

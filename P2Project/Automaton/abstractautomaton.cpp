@@ -1,6 +1,6 @@
 #include "abstractautomaton.h"
 
-State *AbstractAutomaton::getStartingState()
+State *AbstractAutomaton::getStartingState() const
 {
     return startingState;
 }

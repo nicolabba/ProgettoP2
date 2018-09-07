@@ -12,8 +12,8 @@ private:
     std::string newHead;
 public:
     TransitionPDA(StatePDA *,char,char,const std::string&);
-    char getHead();
-    std::string getNewHead();
+    char getHead() const;
+    std::string getNewHead() const;
 };
 
 #endif // TRANSITIONPDA_H

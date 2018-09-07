@@ -5,7 +5,7 @@ State::State(const std::string & n, const bool & f):name(n),final(f)
 
 }
 
-std::string State::getName()
+std::string State::getName() const
 {
     return name;
 }
@@ -15,7 +15,7 @@ void State::rename(const std::string & newNome)
      name = newNome;
 }
 
-bool State::isFinal()
+bool State::isFinal() const
 {
     return final;
 }

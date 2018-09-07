@@ -11,8 +11,8 @@ private:
     char input;
 public:
     Transition(State* s, char i);
-    State* getDestination();
-    char getInput();
+    State* getDestination() const;
+    char getInput() const;
     virtual ~Transition();
 };
 

@@ -10,7 +10,7 @@
 #include <QMessageBox>
 
 
-AutomatonGraphicsView::AutomatonGraphicsView(QWidget *parent, AutomatonGraphicsView::AutomaType type, QString alphabet, char epsilon) : QGraphicsView(parent)
+AutomatonGraphicsView::AutomatonGraphicsView(QWidget *parent, AutomatonGraphicsView::AutomaType type, const QString& alphabet, const QChar& epsilon) : QGraphicsView(parent)
 {
     scene = new QGraphicsScene(this);
     automaton = nullptr;
@@ -25,7 +25,7 @@ AutomatonGraphicsView::AutomaType AutomatonGraphicsView::getCurrentType() const
 
 
 
-void AutomatonGraphicsView::addState(QString name, bool final, bool starting, int left, int top)
+void AutomatonGraphicsView::addState(const QString &name, bool final, bool starting, int left, int top)
 {
     FA* a;
     class PDA* b;
@@ -50,7 +50,7 @@ void AutomatonGraphicsView::addState(QString name, bool final, bool starting, in
         setStartingState(name);
 }
 
-void AutomatonGraphicsView::removeState(QString name)
+void AutomatonGraphicsView::removeState(const QString& name)
 {
 
     FA* a;
@@ -96,7 +96,7 @@ void AutomatonGraphicsView::removeState(QString name)
 }
 
 
-void AutomatonGraphicsView::setStartingState(QString name)
+void AutomatonGraphicsView::setStartingState(const QString& name)
 {
     std::string nameStd = name.toStdString();
     automaton->setStartingState(nameStd);
@@ -110,7 +110,7 @@ void AutomatonGraphicsView::setStartingState(QString name)
     }
 }
 
-void AutomatonGraphicsView::setFinal(QString name, bool val)
+void AutomatonGraphicsView::setFinal(const QString &name, bool val)
 {
     FA* a;
     class PDA* b;
@@ -171,7 +171,7 @@ char AutomatonGraphicsView::getEpsilon() const
 }
 
 
-void AutomatonGraphicsView::reset(AutomatonGraphicsView::AutomaType type, QString alphabet, char epsilon)
+void AutomatonGraphicsView::reset(AutomatonGraphicsView::AutomaType type, const QString& alphabet, const QChar& epsilon)
 {
     scene->clear();
     transitions.clear();
@@ -181,11 +181,11 @@ void AutomatonGraphicsView::reset(AutomatonGraphicsView::AutomaType type, QStrin
     currentType = type;
     switch(type)
     {
-    case NFA: automaton = new class NFA(epsilon);
+    case NFA: automaton = new class NFA(epsilon.toLatin1());
         break;
     case DFA: automaton = new class DFA(alphabet.toStdString());
         break;
-    case PDA: automaton = new class PDA(epsilon);
+    case PDA: automaton = new class PDA(epsilon.toLatin1());
         break;
     }
 }
@@ -198,7 +198,7 @@ void AutomatonGraphicsView::update()
     setScene(scene);
 }
 
-bool AutomatonGraphicsView::doesStateExist(QString name) const
+bool AutomatonGraphicsView::doesStateExist(const QString& name) const
 {
     std::string nameStd = name.toStdString();
     FA* a;
@@ -219,7 +219,7 @@ bool AutomatonGraphicsView::doesStateExist(QString name) const
     return ret;
 }
 
-bool AutomatonGraphicsView::doesTransitionExist(QString from, QString to) const
+bool AutomatonGraphicsView::doesTransitionExist(const QString& from, const QString& to) const
 {
     std::string fromStd = from.toStdString();
     std::string toStd = to.toStdString();
@@ -463,12 +463,12 @@ void AutomatonGraphicsView::editSelected()
     }
 }
 
-bool AutomatonGraphicsView::check(QString s) const
+bool AutomatonGraphicsView::check(const QString &s) const
 {
     return automaton->start(s.toStdString());
 }
 
-void AutomatonGraphicsView::addTransition(QString from, QString to, QChar input, QChar head, QString newHead)
+void AutomatonGraphicsView::addTransition(const QString& from, const QString& to, const QChar& input, const QChar& head, const QString& newHead)
 {
     std::string fromStd = from.toStdString();
     std::string toStd = to.toStdString();
@@ -520,7 +520,7 @@ void AutomatonGraphicsView::addTransition(QString from, QString to, QChar input,
     }
 }
 
-void AutomatonGraphicsView::removeTransition(QString from, QString to, QChar input, QChar head, QString newHead)
+void AutomatonGraphicsView::removeTransition(const QString& from, const QString& to, const QChar& input, const QChar& head, const QString& newHead)
 {
     std::string fromStd = from.toStdString();
     std::string toStd = to.toStdString();

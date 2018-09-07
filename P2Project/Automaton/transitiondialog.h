@@ -17,7 +17,9 @@ private:
     QString from, to;
     QTextEdit* fromEdit,* toEdit;
 public:
-    TransitionDialog(QWidget * = nullptr, Qt::WindowFlags = Qt::WindowFlags(), QList<QString>* = new QList<QString>(), AutomatonGraphicsView::AutomaType = AutomatonGraphicsView::AutomaType::NFA, QString = "", QString = "", QString = "", QString = "", QString = "");
+    TransitionDialog(QWidget * = nullptr, Qt::WindowFlags = Qt::WindowFlags(), QList<QString>* = new QList<QString>(),
+                     AutomatonGraphicsView::AutomaType = AutomatonGraphicsView::AutomaType::NFA, const QString& = "",
+                     const QString& = "", const QString& = "", const QString& = "", const QString& = "");
     QString getFrom() const;
     QString getTo() const;
     QList<QString>* getNewHead() const;

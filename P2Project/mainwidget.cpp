@@ -2,12 +2,15 @@
 #include <QBoxLayout>
 #include <QPushButton>
 
+#include "String/stringmain.h"
 #include "Automaton/automatonmain.h"
+
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
 {
     setStyleSheet("background-color: white");
-    resize(200,100);
+    setWindowFlags(Qt::WindowTitleHint |  Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+    setFixedSize(200,150);
 
     QVBoxLayout * layout = new QVBoxLayout();
 
@@ -44,7 +47,8 @@ MainWidget::~MainWidget()
 
 void MainWidget::openStringEditor()
 {
-
+    StringMain* w = new StringMain();
+    w->show();
 }
 
 void MainWidget::openGraphicEditor()

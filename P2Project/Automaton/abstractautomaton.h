@@ -15,7 +15,7 @@ public:
     virtual void removeState(const std::string&) = 0;
     virtual void setStartingState(const std::string&) = 0;
     virtual void renameState(const std::string&, const std::string&) = 0;
-    State* getStartingState();
+    State* getStartingState() const;
     //Stato* getStato(std::string);
     //Stato* operator [](std::string);
     virtual ~AbstractAutomaton();

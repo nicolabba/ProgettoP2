@@ -43,7 +43,12 @@ SOURCES += \
     Automaton/transitiongraphicsitem.cpp \
     Automaton/transitionpda.cpp \
     Automaton/automatonmain.cpp \
-    mainwidget.cpp
+    mainwidget.cpp \
+    String/inputline.cpp \
+    String/inputs.cpp \
+    String/mycheckbox.cpp \
+    String/stringmain.cpp \
+    String/mystring.cpp
 
 HEADERS += \
     Automaton/abstractautomaton.h \
@@ -64,4 +69,9 @@ HEADERS += \
     Automaton/transitiongraphicsitem.h \
     Automaton/transitionpda.h \
     Automaton/automatonmain.h \
-    mainwidget.h
+    mainwidget.h \
+    String/inputline.h \
+    String/inputs.h \
+    String/mycheckbox.h \
+    String/stringmain.h \
+    String/mystring.h

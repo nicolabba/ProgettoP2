@@ -1,11 +1,11 @@
 #include "statefa.h"
 
-StateFA::StateFA(const std::string & name, const bool& final):State(name,final)
+StateFA::StateFA(const std::string & name, bool final):State(name,final)
 {
     trans = new std::vector<Transition*>();
 }
 
-Transition *StateFA::getTrans(StateFA * state, const char & input)
+Transition *StateFA::getTrans(StateFA * state, char input) const
 {
     std::vector<Transition*>::iterator i;
     for(i = trans->begin(); i != trans->end() && ((*i)->getDestination() != state || (*i)->getInput() != input); i++);
@@ -16,7 +16,7 @@ Transition *StateFA::getTrans(StateFA * state, const char & input)
         return (*i);
 }
 
-void StateFA::add(StateFA * state, const char & input)
+void StateFA::add(StateFA * state, char input)
 {
     if(getTrans(state,input) == nullptr)
     {
@@ -24,7 +24,7 @@ void StateFA::add(StateFA * state, const char & input)
     }
 }
 
-void StateFA::remove(StateFA * state, const char & input)
+void StateFA::remove(StateFA * state, char input)
 {
     bool deleted = false;
     for(std::vector<Transition*>::iterator j = trans->begin();  j != trans->end() && !deleted; j++)
@@ -37,7 +37,7 @@ void StateFA::remove(StateFA * state, const char & input)
     }
 }
 
-int StateFA::nTrans()
+int StateFA::nTrans() const
 {
     return trans->size();
 }

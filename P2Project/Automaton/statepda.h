@@ -12,11 +12,11 @@ class StatePDA : public State
 private:
     std::vector<TransitionPDA*>* trans;
 public:
-    StatePDA(const std::string &, const bool& = false);
-    TransitionPDA *getTrans(StatePDA*, const char&,const char&,const std::string&);
-    void add(StatePDA*, const char&, const char&, const std::string&);
-    void remove(StatePDA*,const char&, const char&, const std::string&);
-    int nTrans();
+    StatePDA(const std::string &, bool = false);
+    TransitionPDA *getTrans(StatePDA*, char,char,const std::string&);
+    void add(StatePDA*, char, char, const std::string&);
+    void remove(StatePDA*,char, char, const std::string&);
+    int nTrans() const;
     Transition *operator [](int);
 };
 

@@ -1,11 +1,11 @@
 #include "transition.h"
 
-State *Transition::getDestination()
+State *Transition::getDestination() const
 {
     return destination;
 }
 
-char Transition::getInput()
+char Transition::getInput() const
 {
     return input;
 }

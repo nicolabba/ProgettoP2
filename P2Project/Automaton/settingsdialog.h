@@ -17,7 +17,7 @@ private:
     QLineEdit* alphabetEdit, *epsilonEdit;
 
     public:
-    SettingsDialog(QWidget* = nullptr,Qt::WindowFlags = Qt::WindowFlags(),AutomatonGraphicsView::AutomaType = AutomatonGraphicsView::AutomaType::NFA, QString = "", QChar = '&');
+    SettingsDialog(QWidget* = nullptr,Qt::WindowFlags = Qt::WindowFlags(),AutomatonGraphicsView::AutomaType = AutomatonGraphicsView::AutomaType::NFA, const QString& = "", const QChar& = '&');
     AutomatonGraphicsView::AutomaType getType() const;
     QString getAlphabet() const;
     QChar getEpsilon() const;

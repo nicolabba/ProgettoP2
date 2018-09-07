@@ -30,7 +30,7 @@ QList<QChar>* TransitionDialog::getHead() const
     return head;
 }
 
-TransitionDialog::TransitionDialog(QWidget * parent, Qt::WindowFlags f, QList<QString> *states, AutomatonGraphicsView::AutomaType type, QString from, QString to, QString inputs, QString heads, QString newHeads):
+TransitionDialog::TransitionDialog(QWidget * parent, Qt::WindowFlags f, QList<QString> *states, AutomatonGraphicsView::AutomaType type, const QString &from, const QString &to, const QString &inputs, const QString &heads, const QString &newHeads):
     QDialog(parent, f), type(type), from(from), to(to)
 {
     editInput(inputs);

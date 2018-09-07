@@ -6,7 +6,7 @@ FA::FA(StateFA *s)
     states = new std::list<StateFA*>();
 }
 
-StateFA *FA::getState(const std::string& s)
+StateFA *FA::getState(const std::string& s) const
 {
     std::list<StateFA*>::iterator i = states->begin();
     while(i != states->end() && (*i)->getName() != s)
@@ -34,7 +34,7 @@ StateFA *FA::operator[](int val)
     return nullptr;
 }
 
-int FA::getStatesNumber()
+int FA::getStatesNumber() const
 {
     return states->size();
 }

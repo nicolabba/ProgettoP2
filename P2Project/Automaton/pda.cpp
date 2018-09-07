@@ -7,7 +7,7 @@ PDA::PDA(char epsilon, StatePDA *s):epsilon(epsilon)
     closures = new std::list<std::list<std::string>*>();
 }
 
-StatePDA *PDA::getState(const std::string& s)
+StatePDA *PDA::getState(const std::string& s) const
 {
     std::list<StatePDA*>::iterator i = states->begin();
     while(i != states->end() && (*i)->getName() != s)
@@ -36,7 +36,7 @@ StatePDA *PDA::operator[](int val)
 }
 
 
-int PDA::getStatesNumber()
+int PDA::getStatesNumber() const
 {
     return states->size();
 }
@@ -119,7 +119,7 @@ void PDA::setEpsilon(char value)
     epsilon = value;
 }
 
-void PDA::supportClosures(std::list<std::string> * curr, State* s)
+void PDA::supportClosures(std::list<std::string> * curr, State* s) const
 {
     bool present;
     for (int i = 0; i<s->nTrans(); i++)
@@ -155,7 +155,7 @@ void PDA::updateClosures()
 }
 
 
-bool PDA::check(StatePDA * s, const std::string & input, const std::string& stack)
+bool PDA::check(StatePDA * s, const std::string & input, const std::string& stack) const
 {
     std::string tempStack;
     TransitionPDA *tempTrans;

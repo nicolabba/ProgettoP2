@@ -10,10 +10,10 @@ private:
     QString text;
     bool starting, final;
 public:
-    StateDialog(QWidget* = nullptr,Qt::WindowFlags = Qt::WindowFlags(), QString = "", bool = false, bool = false);
-    QString getInput();
-    bool getStarting();
-    bool getFinal();
+    StateDialog(QWidget* = nullptr,Qt::WindowFlags = Qt::WindowFlags(), const QString& = "", bool = false, bool = false);
+    QString getInput() const;
+    bool getStarting() const;
+    bool getFinal() const;
 private slots:
     void setInput(QString);
     void setStarting(bool);

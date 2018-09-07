@@ -14,11 +14,11 @@ private:
 protected:
     State(const std::string&,const bool& = false);
 public:
-    virtual int nTrans() = 0;
+    virtual int nTrans() const = 0;
     virtual Transition* operator[](int) = 0;
-    std::string getName();
+    std::string getName() const;
     void rename(const std::string&);
-    bool isFinal();
+    bool isFinal() const;
     void setFinal(bool);
 };
 

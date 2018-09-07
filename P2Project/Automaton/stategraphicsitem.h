@@ -18,10 +18,10 @@ public:
                const QStyleOptionGraphicsItem *option,
                QWidget *widget);
     void setStarting(bool);
-    bool getStarting();
+    bool getStarting() const;
     void setFinal(bool);
-    bool getFinal();
-    State* getState();
+    bool getFinal() const;
+    State* getState() const;
 };
 
 #endif // STATEGRAPHICSITEM_H

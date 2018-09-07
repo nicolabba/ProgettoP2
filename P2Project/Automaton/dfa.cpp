@@ -1,6 +1,6 @@
 #include "dfa.h"
 
-bool DFA::checkAlphabet(State* s)
+bool DFA::checkAlphabet(State* s) const
 {
     std::vector<int> control = std::vector<int>(alphabet.length());
     int pos;
@@ -20,7 +20,7 @@ bool DFA::checkAlphabet(State* s)
     return true;
 }
 
-bool DFA::check(State *s, const std::string &input)
+bool DFA::check(State *s, const std::string &input) const
 {
     if(input.length()!=0)
     {

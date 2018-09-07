@@ -11,10 +11,10 @@ protected:
     std::list<StateFA*>* states;
     FA(StateFA* = nullptr);
 public:
-    StateFA* getState(const std::string &);
+    StateFA* getState(const std::string &) const;
     StateFA* operator[](const std::string &);
     StateFA* operator[](int);
-    int getStatesNumber();
+    int getStatesNumber() const;
     virtual bool start(const std::string &) = 0;
     void addState(const std::string &, bool = false);
     void removeState(const std::string &);

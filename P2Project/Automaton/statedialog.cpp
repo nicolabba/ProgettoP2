@@ -6,7 +6,7 @@
 #include <QCheckBox>
 #include <QLabel>
 
-StateDialog::StateDialog(QWidget * parent, Qt::WindowFlags f, QString name, bool starting, bool final):QDialog(parent, f), text(name), starting(starting), final(final)
+StateDialog::StateDialog(QWidget * parent, Qt::WindowFlags f, const QString &name, bool starting, bool final):QDialog(parent, f), text(name), starting(starting), final(final)
 {
     this->setModal(true);
     this->setFixedSize(200,150);
@@ -50,17 +50,17 @@ StateDialog::StateDialog(QWidget * parent, Qt::WindowFlags f, QString name, bool
     this->setLayout(layout);
 }
 
-QString StateDialog::getInput()
+QString StateDialog::getInput() const
 {
     return text;
 }
 
-bool StateDialog::getStarting()
+bool StateDialog::getStarting() const
 {
     return starting;
 }
 
-bool StateDialog::getFinal()
+bool StateDialog::getFinal() const
 {
     return final;
 }

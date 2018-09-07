@@ -10,15 +10,15 @@ private:
     std::list<StatePDA*>* states;
     char epsilon;
     std::list<std::list<std::string>*>* closures;
-    void supportClosures(std::list<std::string> * , State* );
+    void supportClosures(std::list<std::string> * , State* ) const;
     void updateClosures();
-    bool check(StatePDA*, const std::string&, const std::string&);
+    bool check(StatePDA*, const std::string&, const std::string&) const;
 public:
     PDA(char = '\0', StatePDA * = nullptr);
-    StatePDA* getState(const std::string &);
+    StatePDA* getState(const std::string &) const;
     StatePDA* operator[](const std::string &);
     StatePDA* operator[](int);
-    int getStatesNumber();
+    int getStatesNumber() const;
     void addState(const std::string &, bool = false);
     void removeState(const std::string &);
     void setStartingState(const std::string &);

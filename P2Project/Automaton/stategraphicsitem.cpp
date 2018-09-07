@@ -47,7 +47,7 @@ void StateGraphicsItem::setStarting(bool value)
     update();
 }
 
-bool StateGraphicsItem::getStarting()
+bool StateGraphicsItem::getStarting() const
 {
     return starting;
 }
@@ -58,12 +58,12 @@ void StateGraphicsItem::setFinal(bool value)
     update();
 }
 
-bool StateGraphicsItem::getFinal()
+bool StateGraphicsItem::getFinal() const
 {
     return state->isFinal();
 }
 
-State *StateGraphicsItem::getState()
+State *StateGraphicsItem::getState() const
 {
     return state;
 }

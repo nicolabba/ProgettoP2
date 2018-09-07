@@ -11,11 +11,11 @@ class StateFA : public State
 private:
     std::vector<Transition*>* trans;
 public:
-    StateFA(const std::string&, const bool& = false);
-    Transition* getTrans(StateFA *, const char&);
-    void add(StateFA *, const char&);
-    void remove(StateFA *, const char&);
-    int nTrans();
+    StateFA(const std::string&, bool = false);
+    Transition* getTrans(StateFA *, char) const;
+    void add(StateFA *, char);
+    void remove(StateFA *, char);
+    int nTrans() const;
     Transition *operator [](int);
 };
 
