@@ -37,11 +37,11 @@ public class StatoPDA extends Stato{
 	}
 	
 	public void remove(StatoPDA stato,final char input, final char head, final String newHead){
-		 Boolean eliminato = false;
+		Boolean eliminato = false;
 	    for(int j = 0;  j < trans.size() && !eliminato; j++)
 	    {
-	        if(trans.get(j).getDest() == stato && 
-	        		trans.get(j).getInput() == input 
+	        if(trans.get(j).getDest() == stato 
+	        		&& trans.get(j).getInput() == input 
 	        		&& trans.get(j).getHead() == head 
 	        		&& trans.get(j).getNewHead() == newHead)
 	        {
