@@ -2,12 +2,14 @@
 #include <QBoxLayout>
 #include <QPushButton>
 
-#include "String/stringmain.h"
-#include "Automaton/automatonmain.h"
 
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
 {
+    sm = new QList<StringMain*>();
+    gm = new QList<GraphMain*>();
+    am = new QList<AutomatonMain*>();
+
     setStyleSheet("background-color: white");
     setWindowFlags(Qt::WindowTitleHint |  Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     setFixedSize(200,150);
@@ -25,9 +27,10 @@ MainWidget::MainWidget(QWidget *parent)
     gButton->setToolTip("Questo pulsante apre un editor di grafici");
     aButton->setToolTip("Questo pulsante apre un editor di automi");
 
-    connect(sButton,SIGNAL(pressed()),this,SLOT(openStringEditor()));
-    connect(gButton,SIGNAL(pressed()),this,SLOT(openGraphicEditor()));
-    connect(aButton,SIGNAL(pressed()),this,SLOT(openAutomatonEditor()));
+
+    connect(sButton,SIGNAL(released()),this,SLOT(openStringEditor()));
+    connect(gButton,SIGNAL(released()),this,SLOT(openGraphEditor()));
+    connect(aButton,SIGNAL(released()),this,SLOT(openAutomatonEditor()));
 
     sButton->setStyleSheet(buttonStyleSheet);
     gButton->setStyleSheet(buttonStyleSheet);
@@ -45,19 +48,35 @@ MainWidget::~MainWidget()
 
 }
 
+
 void MainWidget::openStringEditor()
 {
-    StringMain* w = new StringMain();
-    w->show();
+    sm->append(new StringMain());
+    sm->last()->show();
 }
 
-void MainWidget::openGraphicEditor()
+void MainWidget::openGraphEditor()
 {
-
+    gm->append(new GraphMain());
+    gm->last()->show();
 }
 
 void MainWidget::openAutomatonEditor()
 {
-    AutomatonMain* w = new AutomatonMain();
-    w->show();
+    am->append(new AutomatonMain());
+    am->last()->show();
+}
+
+void MainWidget::closeEvent(QCloseEvent *event)
+{
+    for(auto i = sm->begin(); i != sm->end(); i++)
+        (*i)->close();
+    for(auto i = gm->begin(); i != gm->end(); i++)
+        (*i)->close();
+    for(auto i = am->begin(); i != am->end(); i++)
+        (*i)->close();
+    delete sm;
+    delete gm;
+    delete am;
+    QWidget::closeEvent(event);
 }

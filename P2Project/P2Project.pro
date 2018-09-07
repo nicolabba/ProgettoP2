@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui\
+            charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -48,7 +49,10 @@ SOURCES += \
     String/inputs.cpp \
     String/mycheckbox.cpp \
     String/stringmain.cpp \
-    String/mystring.cpp
+    String/mystring.cpp \
+    Graph/grafico.cpp \
+    Graph/punto.cpp \
+    Graph/graphmain.cpp
 
 HEADERS += \
     Automaton/abstractautomaton.h \
@@ -74,4 +78,7 @@ HEADERS += \
     String/inputs.h \
     String/mycheckbox.h \
     String/stringmain.h \
-    String/mystring.h
+    String/mystring.h \
+    Graph/grafico.h \
+    Graph/punto.h \
+    Graph/graphmain.h
