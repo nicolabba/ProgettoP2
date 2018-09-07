@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     twTopData = new QTableView();
     twPoints = new QTableView();//x e y list table
     twPoints->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(twPoints, SIGNAL(customContextMenuRequested(QPoint)),
+    connect(twPoints , SIGNAL(customContextMenuRequested(QPoint)),
              SLOT(customMenuRequested(QPoint)));
 
     QStandardItemModel *model = new QStandardItemModel();
@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     twTopData->setEditTriggers(QAbstractItemView::NoEditTriggers);
     twTopData->verticalHeader()->setVisible(false);
     twTopData->setSelectionMode(QAbstractItemView::NoSelection);
-    twTopData->setMaximumHeight(twTopData->verticalHeader()->height()*1.5 + twTopData->horizontalHeader()->height());
+    twTopData->setMaximumHeight(twTopData->verticalHeader()->height()*3 + twTopData->horizontalHeader()->height());
     twTopData->horizontalScrollBar()->setVisible(false);
     twTopData->setStyleSheet("border:none;");
     dataLay->addWidget(twTopData);
@@ -72,12 +72,13 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     chart->setRenderHint(QPainter::Antialiasing);       
     refreshGraph();
     twPoints->verticalHeader()->setVisible(false);
-    twPoints->setStyleSheet("border:none;");
+    twPoints->setStyleSheet(" border:none; QStandardItemModel::item::selected{background-color: green;}");
     twPoints->horizontalScrollBar()->setVisible(false);
     twPoints->setColumnWidth(0,(this->width()-20)/8);
     twPoints->setColumnWidth(1,(this->width()-20)/8);
     twPoints->setSelectionBehavior( QAbstractItemView::SelectItems );
     twPoints->setSelectionMode( QAbstractItemView::SingleSelection );
+
     botLay->addWidget(chart);
     botLay->addWidget(twPoints);
     botLay->setStretchFactor(twPoints,1);
@@ -118,6 +119,8 @@ void MainWindow::qtbaddClick()
         refreshGraph();
         refreshTopTable();
     }
+    lineX->setText("");
+    lineY->setText("");
 }
 
 void MainWindow::refreshGraph()
@@ -165,16 +168,16 @@ void MainWindow::refreshTopTable()
 {
     std::string result = std::to_string(g->getArea());
     QStandardItemModel *model = new QStandardItemModel(1,4);
-    model->setHorizontalHeaderLabels(QStringList{"area","lenght","max","min"});
+    model->setHorizontalHeaderLabels(QStringList{"area","length","max","min"});
     QStandardItem *item = new QStandardItem(QString::fromStdString(result));
     model->setItem(0,0,item);
     result = std::to_string(g->getLenght());
     model->setItem(0,1,new QStandardItem(QString::fromStdString(result)));
     Punto* p = g->getMax();
-    result = std::to_string(p->getX()).append(",").append(std::to_string(p->getY()));
+    result = std::to_string(p->getX()).append(" , ").append(std::to_string(p->getY()));
     model->setItem(0,2,new QStandardItem(QString::fromStdString(result)));
     p = g->getMin();
-    result = std::to_string(p->getX()).append(",").append(std::to_string(p->getY()));
+    result = std::to_string(p->getX()).append(" , ").append(std::to_string(p->getY()));
     model->setItem(0,3,new QStandardItem(QString::fromStdString(result)));
     twTopData->setModel(model);
     twTopData->setRowHeight(0,40);
@@ -194,7 +197,6 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 void MainWindow::qpointClick(QPointF p){
     QMessageBox *m = new QMessageBox();
     m->setText(QString::fromStdString(std::to_string(p.x()).append(std::to_string(p.y()))));
-
     m->show();
 }
 
@@ -205,13 +207,24 @@ void MainWindow::customMenuRequested(QPoint pos){
     connect(act1, SIGNAL(triggered(bool)), this, SLOT(btModifica()));
     connect(act2, SIGNAL(triggered(bool)), this, SLOT(btElimina()));
     menu->setStyleSheet("QMenu::item::selected {background-color: lightgreen;}");
+
     menu->addAction(act1);
     menu->addAction(act2);
     menu->popup(twPoints->viewport()->mapToGlobal(pos));
 }
 
 void MainWindow::btModifica(){
-    QMessageBox::information(this,tr(""),tr("Slot working?") );
+    int r = twPoints->selectionModel()->currentIndex().row();
+    QModelIndex index1 = twPoints->model()->index(r, 0, QModelIndex());
+    QModelIndex index2 = twPoints->model()->index(r, 1, QModelIndex());
+    auto mx = twPoints->model()->data(index1).toString();
+    auto my = twPoints->model()->data(index2).toString();
+    lineX->setText(mx);
+    lineY->setText(my);
+    g->remove(Punto(mx.toDouble(), my.toDouble()));
+    twPoints->model()->removeRow(r);
+    refreshGraph();
+    refreshTopTable();
 }
 
 void MainWindow::btElimina(){
@@ -221,6 +234,7 @@ void MainWindow::btElimina(){
     auto mx = twPoints->model()->data(index1).toString().toDouble();
     auto my = twPoints->model()->data(index2).toString().toDouble();
     g->remove(Punto(mx,my));
-    twPoints->model()->removeRow(r);
+    twPoints->model()->removeRow(r);    
     refreshGraph();
+    refreshTopTable();
 }
