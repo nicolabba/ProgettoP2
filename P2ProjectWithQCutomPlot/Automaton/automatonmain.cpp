@@ -1,5 +1,5 @@
 #include "automatonmain.h"
-#include "QBoxLayout.h"
+#include <QBoxLayout>
 #include "stategraphicsitem.h"
 #include "transitiongraphicsitem.h"
 #include "nfa.h"
