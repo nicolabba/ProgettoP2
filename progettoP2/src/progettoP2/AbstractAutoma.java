@@ -1,5 +1,3 @@
-package progettoP2;
-
 public interface AbstractAutoma {	
 	public Boolean start(String s);
 	public void addState(String s);
