@@ -1,5 +1,3 @@
-package progettoP2;
-
 import java.util.Vector;
 
 public class StatoFA extends Stato{
