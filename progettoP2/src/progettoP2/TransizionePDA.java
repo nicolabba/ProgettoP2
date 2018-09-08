@@ -1,5 +1,3 @@
-package progettoP2;
-
 public class TransizionePDA extends Transizione{
 	private char head;
 	private String newHead;
