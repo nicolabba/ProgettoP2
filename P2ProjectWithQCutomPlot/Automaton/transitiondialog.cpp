@@ -38,7 +38,7 @@ TransitionDialog::TransitionDialog(QWidget * parent, Qt::WindowFlags f, QList<QS
     editNewHead(newHeads);
 
     this->setModal(true);
-    this->setFixedSize(200,220);
+    this->setFixedSize(250,240);
 
     QHBoxLayout * mainLayout, *opLayout;
     QVBoxLayout * inputLayout, *fromLayout, *toLayout, *layout;
@@ -122,7 +122,7 @@ TransitionDialog::TransitionDialog(QWidget * parent, Qt::WindowFlags f, QList<QS
     inputLayout->addWidget(newHeadLabel);
     inputLayout->addWidget(newHeadEdit);
 
-    QString ButtonStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:40px; height:35px } QToolTip{border:none; background-color:#f0f0f0}";
+    QString ButtonStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; height:35px } QToolTip{border:none; background-color:#f0f0f0}";
     QPushButton* ok, *cancel;
     ok = new QPushButton("Ok", this);
     cancel = new QPushButton("Cancel", this);
@@ -130,10 +130,10 @@ TransitionDialog::TransitionDialog(QWidget * parent, Qt::WindowFlags f, QList<QS
     cancel->setStyleSheet(ButtonStyleSheet);
     connect(ok,SIGNAL(pressed()),this,SLOT(accept()));
     connect(cancel,SIGNAL(pressed()),this,SLOT(reject()));
-    opLayout->addStretch(1);
-    opLayout->addWidget(ok);
-    opLayout->addWidget(cancel);
-    opLayout->addStretch(1);
+    //opLayout->addStretch(1);
+    opLayout->addWidget(ok,1);
+    opLayout->addWidget(cancel,1);
+    //opLayout->addStretch(1);
 
     layout->addLayout(mainLayout);
     layout->addLayout(opLayout);

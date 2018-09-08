@@ -9,7 +9,7 @@
 StateDialog::StateDialog(QWidget * parent, Qt::WindowFlags f, const QString &name, bool starting, bool final):QDialog(parent, f), text(name), starting(starting), final(final)
 {
     this->setModal(true);
-    this->setFixedSize(200,150);
+    this->setFixedSize(200,175);
 
     QVBoxLayout* layout = new QVBoxLayout();
     QHBoxLayout* opLayout = new QHBoxLayout();
@@ -33,7 +33,7 @@ StateDialog::StateDialog(QWidget * parent, Qt::WindowFlags f, const QString &nam
     layout->addWidget(cStarting);
     layout->addWidget(cFinal);
 
-    QString ButtonStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:40px; height:35px } QToolTip{border:none; background-color:#f0f0f0}";
+    QString ButtonStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; height:35px } QToolTip{border:none; background-color:#f0f0f0}";
     QPushButton* ok, *cancel;
     ok = new QPushButton("Ok", this);
     cancel = new QPushButton("Cancel", this);
@@ -41,10 +41,10 @@ StateDialog::StateDialog(QWidget * parent, Qt::WindowFlags f, const QString &nam
     cancel->setStyleSheet(ButtonStyleSheet);
     connect(ok,SIGNAL(pressed()),this,SLOT(accept()));
     connect(cancel,SIGNAL(pressed()),this,SLOT(reject()));
-    opLayout->addStretch(1);
-    opLayout->addWidget(ok);
-    opLayout->addWidget(cancel);
-    opLayout->addStretch(1);
+    //opLayout->addStretch(1);
+    opLayout->addWidget(ok,1);
+    opLayout->addWidget(cancel,1);
+    //opLayout->addStretch(1);
 
     layout->addLayout(opLayout,0);
     this->setLayout(layout);

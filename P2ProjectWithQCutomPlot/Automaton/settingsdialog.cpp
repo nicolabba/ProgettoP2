@@ -22,7 +22,7 @@ QChar SettingsDialog::getEpsilon() const
 SettingsDialog::SettingsDialog(QWidget * parent, Qt::WindowFlags f, AutomatonGraphicsView::AutomaType type, const QString& alphabet, const QChar& epsilon):QDialog(parent,f),type(type),alphabet(alphabet),epsilon(epsilon)
 {
     this->setModal(true);
-    this->setFixedSize(200,240);
+    this->setFixedSize(200,265);
 
     QVBoxLayout* layout = new QVBoxLayout();
     QHBoxLayout* opLayout = new QHBoxLayout();
@@ -79,8 +79,7 @@ SettingsDialog::SettingsDialog(QWidget * parent, Qt::WindowFlags f, AutomatonGra
     layout->addWidget(epsilonLabel);
     layout->addWidget(epsilonEdit);
 
-
-    QString ButtonStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:40px; height:35px }";
+    QString ButtonStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; height:35px }";
     QPushButton* ok, *cancel;
     ok = new QPushButton("Ok", this);
     cancel = new QPushButton("Cancel", this);
@@ -88,10 +87,10 @@ SettingsDialog::SettingsDialog(QWidget * parent, Qt::WindowFlags f, AutomatonGra
     cancel->setStyleSheet(ButtonStyleSheet);
     connect(ok,SIGNAL(pressed()),this,SLOT(accept()));
     connect(cancel,SIGNAL(pressed()),this,SLOT(reject()));
-    opLayout->addStretch(1);
-    opLayout->addWidget(ok);
-    opLayout->addWidget(cancel);
-    opLayout->addStretch(1);
+    //opLayout->addStretch(1);
+    opLayout->addWidget(ok,1);
+    opLayout->addWidget(cancel,1);
+    //opLayout->addStretch(1);
 
     layout->addLayout(opLayout);
     setLayout(layout);
