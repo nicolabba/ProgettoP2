@@ -1,5 +1,3 @@
-package progettoP2;
-
 public class Transizione {
 	
 	private Stato dest;
