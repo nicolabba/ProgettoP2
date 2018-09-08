@@ -1,5 +1,3 @@
-package progettoP2;
-
 public abstract class Stato {
 	
 	private String nome;
