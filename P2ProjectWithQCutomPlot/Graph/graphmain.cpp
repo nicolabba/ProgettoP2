@@ -27,44 +27,35 @@ GraphMain::GraphMain(QWidget *parent) : QWidget(parent)
     twPoints->setModel(model);
     twPoints->verticalScrollBar()->setStyleSheet("QScrollBar,QScrollBar::up-arrow,QScrollBar::down-arrow,QScrollBar::add-line,QScrollBar::sub-line{background:#e8e8e8;border:none;} QScrollBar::handle{background:#86ff86;border:none;}");
 
-    //TEXTBOX
     lineX->setValidator(new QDoubleValidator());
     lineY->setValidator(new QDoubleValidator());
     lineX->setPlaceholderText("insert x value here");
     lineY->setPlaceholderText("insert y value here");
-    lineX->setStyleSheet("height:30px;border:0px solid gray;selection-background-color: darkgray; background-color: #e6ffcc");
-    lineY->setStyleSheet("height:30px;border:0px solid gray;selection-background-color: darkgray; background-color: #e6ffcc");
+    lineX->setStyleSheet("QLineEdit{height:30px;border:0px solid gray;selection-background-color: darkgray; background-color: #e6ffcc}");
+    lineY->setStyleSheet("QLineEdit{height:30px;border:0px solid gray;selection-background-color: darkgray; background-color: #e6ffcc}");
 
-    //BUTTON
     QPushButton *qtbadd = new QPushButton("+");
-    qtbadd->setStyleSheet("height:26px;border:2px solid green;background-color:lightgreen");
+    qtbadd->setStyleSheet("QPushButton{height:26px;border:2px solid green;background-color:lightgreen}");
     connect(qtbadd,SIGNAL(clicked()),this,SLOT(qtbaddClick()));
 
-    //FIRST FRAME OF MAINLAYOUT
-    //QFrame *upFrame = new QFrame();
     QHBoxLayout *upLay = new QHBoxLayout();
     upLay->setSpacing(5);
     upLay->addWidget(lineX,2);
     upLay->addWidget(lineY,2);
     upLay->addWidget(qtbadd,1);
-    //upFrame->setLayout(upLay);
     layout->addLayout(upLay);
 
-    //FRAME FOR DATA(Area,Min,Max, ecc..)
-    //QFrame *dataFrame = new QFrame();
     QHBoxLayout *dataLay = new QHBoxLayout(/*dataFrame*/);
     twTopData->setEditTriggers(QAbstractItemView::NoEditTriggers);
     twTopData->verticalHeader()->setVisible(false);
     twTopData->setSelectionMode(QAbstractItemView::NoSelection);
     twTopData->setMaximumHeight(twTopData->verticalHeader()->height()*3 + twTopData->horizontalHeader()->height());
     twTopData->horizontalScrollBar()->setVisible(false);
-    twTopData->setStyleSheet("border:none;");
+    twTopData->setStyleSheet("QTableView{border:none;}");
     dataLay->addWidget(twTopData);
     layout->addLayout(dataLay);
 
-    //QFrame *botFrame = new QFrame();
     QHBoxLayout *botLay = new QHBoxLayout(/*botFrame*/);
-    //botLay->setSpacing(1);
 
     chart = new QCustomPlot();
     chart->addGraph();
@@ -84,31 +75,17 @@ GraphMain::GraphMain(QWidget *parent) : QWidget(parent)
 
     twPoints->setStyleSheet("QTableView{background-color: white; selection-background-color: #c6ffac; selection-color:black; border: none;}");
     twPoints->horizontalScrollBar()->setVisible(false);
-    //twPoints->setColumnWidth(0,(this->width()-20)/8);
-    //twPoints->setColumnWidth(1,(this->width()-20)/8);
     twPoints->setSelectionBehavior( QAbstractItemView::SelectRows );
     twPoints->setSelectionMode( QAbstractItemView::SingleSelection );
     layout->addLayout(botLay);
 
     botLay->addWidget(chart,1);
     botLay->addWidget(twPoints);
-    //botLay->setStretchFactor(twPoints,1);
-    //botLay->setStretchFactor(chart,4);
 
-    //MAIN LAYOUT
-//    QVBoxLayout *mainLay =  new QVBoxLayout();
-//    mainLay->setContentsMargins(0,0,0,0);
-//    mainLay->addWidget(upFrame);
-//    mainLay->addWidget(dataFrame);
-//    mainLay->addWidget(botFrame);
-//    mainLay->setStretchFactor(upFrame,1);
-//    mainLay->setStretchFactor(dataFrame,0.1);
-//    mainLay->setStretchFactor(botFrame,10);
     setLayout(/*mainLay*/layout);
 
-    this -> setWindowTitle("Kalk");
-    this -> resize(850,500);
-    this -> setStyleSheet("background-color:white");
+    resize(850,500);
+    setStyleSheet("GraphMain{background-color:white}");
 }
 
 GraphMain::~GraphMain()
@@ -125,25 +102,26 @@ void GraphMain::qtbaddClick()
     if(g->insert(Punto(nx,ny))){
         dynamic_cast<QStandardItemModel*>(twPoints->model())->
                 appendRow(QList<QStandardItem*>{
-                              new QStandardItem(lineX->text()),new QStandardItem(lineY->text())
-                          });
+                              new QStandardItem(QString::fromStdString(std::to_string(nx))),
+                              new QStandardItem(QString::fromStdString(std::to_string(ny)))});
         refreshGraph();
         refreshTopTable();
+        lineX->setText("");
+        lineY->setText("");
     }
-    lineX->setText("");
-    lineY->setText("");
+    else
+    {
+        QMessageBox * temp = new QMessageBox("Errore", "Non si puo' inserire un punto con coordinata x gia' presente",
+                                             QMessageBox::Warning,
+                                             QMessageBox::Ok,
+                                             QMessageBox::NoButton,
+                                             QMessageBox::NoButton,this);
+        temp->show();
+    }
 }
 
 void GraphMain::refreshGraph()
 {
-    /*QtCharts::QChart* c = new QtCharts::QChart();
-    QtCharts::QScatterSeries *ss = new QtCharts::QScatterSeries();
-    connect(ss,SIGNAL(clicked(QPointF)),this,SLOT(qpointClick(QPointF)));
-    QtCharts::QLineSeries *sl = new QtCharts::QLineSeries();
-    QtCharts::QLineSeries *sl2 = new QtCharts::QLineSeries();
-    ss->setMarkerShape(QtCharts::QScatterSeries::MarkerShapeCircle);
-    ss->setMarkerSize(10);
-    ss->setColor(QRgb(0x32CD32));*/
     list<Punto>* l = g->clone();
     QVector<double> x(l->size()), y(l->size());
     list<Punto>::iterator it = l->begin();
@@ -157,13 +135,6 @@ void GraphMain::refreshGraph()
         index++;
     }
     chart->graph(0)->setData(x,y);
-
-    /*if(sl->count() > 0 && sl2->count() > 0)
-    {
-        QtCharts::QAreaSeries* as = new QtCharts::QAreaSeries(sl,sl2);
-        as->setColor(QRgb(0xa6ff8c));
-        c->addSeries(as);
-    }*/
     double maxx = g->getMaxX() + 5 ;
     double minx = g->getMinX() - 5;
     double maxy = g->getMaxY() + 5;

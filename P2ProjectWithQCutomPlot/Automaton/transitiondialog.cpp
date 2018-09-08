@@ -30,8 +30,8 @@ QList<QChar>* TransitionDialog::getHead() const
     return head;
 }
 
-TransitionDialog::TransitionDialog(QWidget * parent, Qt::WindowFlags f, QList<QString> *states, AutomatonGraphicsView::AutomaType type, const QString &from, const QString &to, const QString &inputs, const QString &heads, const QString &newHeads):
-    QDialog(parent, f), type(type), from(from), to(to)
+TransitionDialog::TransitionDialog(QWidget * parent, Qt::WindowFlags f, QList<QString> *states, AutomatonGraphicsView::AutomaType type,const QString& alphabet, const QString &from, const QString &to, const QString &inputs, const QString &heads, const QString &newHeads):
+    QDialog(parent, f), type(type), from(from), to(to), alphabet(alphabet)
 {
     editInput(inputs);
     editHead(heads);
@@ -58,8 +58,8 @@ TransitionDialog::TransitionDialog(QWidget * parent, Qt::WindowFlags f, QList<QS
     QString temp;
     fromEdit = new QTextEdit(this);
     toEdit = new QTextEdit(this);
-    fromEdit->setStyleSheet("border: none; selection-background-color:darkgray; background-color: #e6ffcc;");
-    toEdit->setStyleSheet("border: none; selection-background-color:darkgray; background-color: #e6ffcc;");
+    fromEdit->setStyleSheet("QTextEdit{border: none; selection-background-color:darkgray; background-color: #e6ffcc;}");
+    toEdit->setStyleSheet("QTextEdit{border: none; selection-background-color:darkgray; background-color: #e6ffcc;}");
     fromEdit->setReadOnly(true);
     toEdit->setReadOnly(true);
     fromEdit->setToolTip("Qui puoi selezionare lo stato da cui deve partire questa transizione");
@@ -90,9 +90,9 @@ TransitionDialog::TransitionDialog(QWidget * parent, Qt::WindowFlags f, QList<QS
     QLineEdit* inputEdit = new QLineEdit(inputs,this);
     QLineEdit* headEdit = new QLineEdit(heads,this);
     QLineEdit* newHeadEdit = new QLineEdit(newHeads,this);
-    inputEdit->setStyleSheet("height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;");
-    headEdit->setStyleSheet("height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;");
-    newHeadEdit->setStyleSheet("height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;");
+    inputEdit->setStyleSheet("QLineEdit{height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;}");
+    headEdit->setStyleSheet("QLineEdit{height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;}");
+    newHeadEdit->setStyleSheet("QLineEdit{height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;}");
 
     inputEdit->setToolTip("Qui puoi inserire il carattere che dovra' essere letto per eseguire questa transizione");
 
@@ -209,7 +209,6 @@ void TransitionDialog::accept()
     {
         message = "Deve essere selezionato sia uno stato di partenza che uno di arrivo";
         error = true;
-
     }
     if(!error && (type == AutomatonGraphicsView::AutomaType::PDA))
     {
@@ -228,6 +227,19 @@ void TransitionDialog::accept()
         {
             error = true;
             message = "Il numero di elementi in input, testa e rimpiazzo deve essere uguale";
+        }
+    }
+    else if(!error && type == AutomatonGraphicsView::AutomaType::DFA)
+    {
+        QChar ch;
+        for(QList<QChar>::iterator c = input->begin(); c != input->end(); c++)
+        {
+            ch = *c;
+            if(!alphabet.contains(ch))
+            {
+                error = true;
+                message = "Non puoi inserire in input elementi non presenti nell'alfabeto dell'automa (DFA)";
+            }
         }
     }
     if(!error && (input->size() == 0))

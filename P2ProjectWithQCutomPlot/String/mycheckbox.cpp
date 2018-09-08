@@ -24,10 +24,10 @@ void myCheckBox::setChecked(bool act)
     active = act;
     if(active)
     {
-        button->setStyleSheet("height:30px; width:30px; background-color:#3D7848");
+        button->setStyleSheet("QPushButton{height:30px; width:30px; background-color:#3D7848; border: none;}");
     }else
     {
-        button->setStyleSheet("height:30px; width:30px; background-color:lightgreen");
+        button->setStyleSheet("QPushButton{height:30px; width:30px; background-color:lightgreen; border: none;}");
     }
 }
 

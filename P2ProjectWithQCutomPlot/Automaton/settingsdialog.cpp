@@ -27,51 +27,60 @@ SettingsDialog::SettingsDialog(QWidget * parent, Qt::WindowFlags f, AutomatonGra
     QVBoxLayout* layout = new QVBoxLayout();
     QHBoxLayout* opLayout = new QHBoxLayout();
 
+    QLabel * alphabetLabel = new QLabel("Alfabeto:",this);
+    alphabetEdit = new QLineEdit(alphabet ,this);
+    alphabetEdit->setStyleSheet("QLineEdit{height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;}");
+    connect(alphabetEdit,SIGNAL(textChanged(QString)),this,SLOT(changeAlphabet(QString)));
+
+    QLabel * epsilonLabel = new QLabel("Epsilon:",this);
+    epsilonEdit = new QLineEdit(epsilon ,this);
+    epsilonEdit->setStyleSheet("QLineEdit{height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;}");
+    epsilonEdit->setMaxLength(1);
+    connect(epsilonEdit,SIGNAL(textChanged(QString)),this,SLOT(changeEpsilon(QString)));
+
+
     QLabel * typeLabel = new QLabel("Tipo:",this);
     typeSel = new QTextEdit(this);
-    typeSel->setStyleSheet("border: none; selection-background-color:darkgray; background-color: #e6ffcc;");
+    typeSel->setStyleSheet("QTextEdit{border: none; selection-background-color:darkgray; background-color: #e6ffcc;}");
     typeSel->setReadOnly(true);
     typeSel->setToolTip("Qui puoi selezionare il tipo di automa");
-    typeSel->append("Nondeterministic finite automaton\nDeterministic finite automaton\nPushdown automaton");
+    typeSel->append("NFA\nDFA\nPDA");
     int index;
     switch(type)
     {
     case AutomatonGraphicsView::AutomaType::NFA:
         index = 0;
+        alphabetEdit->setEnabled(false);
         break;
     case AutomatonGraphicsView::AutomaType::DFA:
-        index = 35;
+        index = 4;
+        epsilonEdit->setEnabled(false);
         break;
     case AutomatonGraphicsView::AutomaType::PDA:
-        index = 67;
+        index = 8;
+        alphabetEdit->setEnabled(false);
         break;
     }
     QTextCursor cursor;
     cursor = typeSel->textCursor();
     cursor.setPosition(index);
+    //typeSelection();
     cursor.movePosition(QTextCursor::StartOfBlock,QTextCursor::MoveAnchor);
     cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
     typeSel->setTextCursor(cursor);
     connect(typeSel, SIGNAL(cursorPositionChanged()), this, SLOT(typeSelection()));
+
     layout->addWidget(typeLabel);
     layout->addWidget(typeSel);
 
-    QLabel * alphabetLabel = new QLabel("Alfabeto:",this);
-    alphabetEdit = new QLineEdit(alphabet ,this);
-    alphabetEdit->setStyleSheet("height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;");
-    connect(alphabetEdit,SIGNAL(textChanged(QString)),this,SLOT(changeAlphabet(QString)));
     layout->addWidget(alphabetLabel);
     layout->addWidget(alphabetEdit);
 
-    QLabel * epsilonLabel = new QLabel("Epsilon:",this);
-    epsilonEdit = new QLineEdit(epsilon ,this);
-    epsilonEdit->setStyleSheet("height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;");
-    epsilonEdit->setMaxLength(1);
-    connect(epsilonEdit,SIGNAL(textChanged(QString)),this,SLOT(changeEpsilon(QString)));
     layout->addWidget(epsilonLabel);
     layout->addWidget(epsilonEdit);
 
-    QString ButtonStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:40px; height:35px } QToolTip{border:none; background-color:#f0f0f0}";
+
+    QString ButtonStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:40px; height:35px }";
     QPushButton* ok, *cancel;
     ok = new QPushButton("Ok", this);
     cancel = new QPushButton("Cancel", this);

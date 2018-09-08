@@ -15,7 +15,7 @@ StringMain::StringMain(QWidget *parent) :
     inp = new Inputs(inpCont);
     inpCont->setWidget(inp);
     inpCont->setWidgetResizable(true);
-    inpCont->setStyleSheet("border:none");
+    inpCont->setStyleSheet("QScrollArea{border:none; background-color: white;}");
     inpCont->verticalScrollBar()->setStyleSheet("QScrollBar,QScrollBar::up-arrow,QScrollBar::down-arrow,QScrollBar::add-line,QScrollBar::sub-line{background:#e8e8e8; border:none;} QScrollBar::handle{background:#86ff86;border:none;}");
     layout->setSpacing(0);
     opLayout->setSpacing(4);
@@ -34,14 +34,14 @@ StringMain::StringMain(QWidget *parent) :
 
     QPushButton* addButton = new QPushButton("+",this);
     addButton->setToolTip("Aggiungi una riga di input");
-    addButton->setStyleSheet("QPushButton{width:30; color:green; background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 lightgreen, stop:1 white); border:none;}QToolTip{border:none; background-color:#f0f0f0}");
+    addButton->setStyleSheet("QPushButton{width:30; color:green; background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 lightgreen, stop:1 white); border:none;}");
     connect(addButton,SIGNAL(pressed()),this,SLOT(addInput()));
     layout->addWidget(addButton,0,Qt::AlignTop|Qt::AlignRight);
 
     layout->addSpacing(15);
     layout->addLayout(opLayout,0);
 
-    QString opStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:35px; height:35px } QToolTip{border:none; background-color:#f0f0f0}";
+    QString opStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:35px; height:35px }";
     QPushButton* remInpButton = new QPushButton("?",this);
     QPushButton* appendButton = new QPushButton("+", this);
     QPushButton* removeButton = new QPushButton("-", this);
@@ -86,7 +86,7 @@ StringMain::StringMain(QWidget *parent) :
     QLineEdit* opLine = new QLineEdit(this);
     opInput = MyString();
     connect(opLine,SIGNAL(textEdited(QString)),this,SLOT(editOpInput(QString)));
-    opLine->setStyleSheet("height: 30px; width: 234px; border: none; selection-background-color:darkgray; background-color: #c6ffac; margin-top:5px");
+    opLine->setStyleSheet("QLineEdit{height: 30px; width: 234px; border: none; selection-background-color:darkgray; background-color: #c6ffac; margin-top:5px}");
     layout->addWidget(opLine,0);//,Qt::AlignCenter | Qt::AlignHCenter);
     //layout->addStretch(1);
 

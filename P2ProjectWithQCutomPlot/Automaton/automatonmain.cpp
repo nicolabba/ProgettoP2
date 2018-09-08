@@ -11,7 +11,7 @@
 
 AutomatonMain::AutomatonMain(QWidget *parent) : QWidget(parent)
 {
-    setStyleSheet("background-color: white");
+    setStyleSheet("AutomatonMain{background-color: white;} QDialog{background-color: white;}");
     setWindowFlags( Qt::WindowTitleHint |  Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     resize(750,500);
 
@@ -29,7 +29,7 @@ AutomatonMain::AutomatonMain(QWidget *parent) : QWidget(parent)
     connect(check,SIGNAL(textChanged()), this,SLOT(resetResults()));
     checkLayout->addWidget(check,0);
 
-    QString opStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:35px; height:35px } QToolTip{border:none; background-color:#f0f0f0}";
+    QString opStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:35px; height:35px }";
     QPushButton* settings = new QPushButton("Sett.",this);
     QPushButton* addState = new QPushButton("+S",this);
     QPushButton* addTransition = new QPushButton("+T", this);
@@ -137,7 +137,7 @@ void AutomatonMain::addState()
 
 void AutomatonMain::addTransition()
 {
-    TransitionDialog* win = new TransitionDialog(this,Qt::WindowFlags(),view->getStatesNames(),view->getCurrentType());
+    TransitionDialog* win = new TransitionDialog(this,Qt::WindowFlags(),view->getStatesNames(),view->getCurrentType(),view->getAlphabet());
     bool error;
     do
     {

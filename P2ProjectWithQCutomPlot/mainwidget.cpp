@@ -6,11 +6,12 @@
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
 {
+
     sm = new QList<StringMain*>();
     gm = new QList<GraphMain*>();
     am = new QList<AutomatonMain*>();
 
-    setStyleSheet("background-color: white");
+    setStyleSheet("MainWidget{background-color: white;} QToolTip{background-color: white; color: black;}");
     setWindowFlags(Qt::WindowTitleHint |  Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     setFixedSize(200,150);
 

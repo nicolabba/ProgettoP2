@@ -14,11 +14,11 @@ private:
     AutomatonGraphicsView::AutomaType type;
     QList<QString>* newHead;
     QList<QChar>* input, *head;
-    QString from, to;
+    QString from, to, alphabet;
     QTextEdit* fromEdit,* toEdit;
 public:
     TransitionDialog(QWidget * = nullptr, Qt::WindowFlags = Qt::WindowFlags(), QList<QString>* = new QList<QString>(),
-                     AutomatonGraphicsView::AutomaType = AutomatonGraphicsView::AutomaType::NFA, const QString& = "",
+                     AutomatonGraphicsView::AutomaType = AutomatonGraphicsView::AutomaType::NFA, const QString & = "", const QString& = "",
                      const QString& = "", const QString& = "", const QString& = "", const QString& = "");
     QString getFrom() const;
     QString getTo() const;

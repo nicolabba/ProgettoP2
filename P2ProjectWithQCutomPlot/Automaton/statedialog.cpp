@@ -18,7 +18,7 @@ StateDialog::StateDialog(QWidget * parent, Qt::WindowFlags f, const QString &nam
     layout->addWidget(nameLabel);
 
     QLineEdit* input = new QLineEdit(name ,this);
-    input->setStyleSheet("height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;");
+    input->setStyleSheet("QLineEdit{height: 30px; border: none; selection-background-color:darkgray; background-color: #e6ffcc;}");
     connect(input,SIGNAL(textChanged(QString)),this,SLOT(setInput(QString)));
     layout->addWidget(input);
 
