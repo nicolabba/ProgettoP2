@@ -63,21 +63,21 @@ AutomatonMain::AutomatonMain(QWidget *parent) : QWidget(parent)
     opLayout->addWidget(start,1);
     opLayout->addStretch(1);
 
-    /*testing
-    view->reset(AutomaGraphicsView::AutomaType::PDA,"",'e');
+    /*testing*/
+    view->reset(AutomatonGraphicsView::AutomaType::PDA,"",'&');
     view->addState("s",false,true,50,100);
     view->addState("p",false,false,150,100);
     view->addState("q",false,false,250,100);
     view->addState("r",true,false,250,200);
-    view->addTransition("s","p",'e','e',"Z");
+    view->addTransition("s","p",'&','&',"Z");
     view->addTransition("p","p",'0','Z',"AZ");
     view->addTransition("p","p",'0','A',"AA");
-    view->addTransition("p","q",'e','e',"e");
-    view->addTransition("q","q",'1','A',"e");
-    view->addTransition("q","r",'e','Z',"Z");
+    view->addTransition("p","q",'&','&',"&");
+    view->addTransition("q","q",'1','A',"&");
+    view->addTransition("q","r",'&','Z',"&");
     check->append("0011");
     this->start();
-    testing*/
+    /*testing*/
 
     setLayout(layout);
 }

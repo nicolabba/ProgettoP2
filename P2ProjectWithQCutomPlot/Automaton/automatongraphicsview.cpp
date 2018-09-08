@@ -421,7 +421,7 @@ void AutomatonGraphicsView::editSelected()
                 if(++j != (*i)->transitions->end())
                     inputs.append(",");
             }
-            TransitionDialog* win = new TransitionDialog(this,Qt::WindowFlags(),getStatesNames(),currentType,
+            TransitionDialog* win = new TransitionDialog(this,Qt::WindowFlags(),getStatesNames(),currentType,getAlphabet(),
                                                          QString::fromStdString((*i)->from->getState()->getName()),
                                                          QString::fromStdString((*i)->to->getState()->getName()), inputs, heads, newHeads);
             bool error;

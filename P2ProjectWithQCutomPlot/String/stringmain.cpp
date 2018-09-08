@@ -6,6 +6,7 @@
 StringMain::StringMain(QWidget *parent) :
     QWidget(parent)
 {
+    resize(400,176);
     setStyleSheet("background-color: white");
     setWindowFlags( Qt::WindowTitleHint |  Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     QVBoxLayout* layout = new QVBoxLayout();
@@ -42,13 +43,13 @@ StringMain::StringMain(QWidget *parent) :
     layout->addLayout(opLayout,0);
 
     QString opStyleSheet = "QPushButton{ background-color: #f0f0f0; border:none; width:35px; height:35px }";
-    QPushButton* remInpButton = new QPushButton("?",this);
-    QPushButton* appendButton = new QPushButton("+", this);
-    QPushButton* removeButton = new QPushButton("-", this);
-    QPushButton* searchButton = new QPushButton("Q", this);
-    QPushButton* splitButton = new QPushButton("Y", this);
-    QPushButton* hashButton = new QPushButton("#", this);
-    QPushButton* dupButton = new QPushButton("//", this);
+    QPushButton* remInpButton = new QPushButton("Delete",this);
+    QPushButton* appendButton = new QPushButton("Add", this);
+    QPushButton* removeButton = new QPushButton("Remove", this);
+    QPushButton* searchButton = new QPushButton("Search", this);
+    QPushButton* splitButton = new QPushButton("Split", this);
+    QPushButton* hashButton = new QPushButton("Hash", this);
+    QPushButton* dupButton = new QPushButton("Copy", this);
     remInpButton->setToolTip("Rimuovi tutti gli input attivi");
     appendButton->setToolTip("Aggiungi la stringa sottostante a tutte le stringhe attive");
     removeButton->setToolTip("Rimuovi la stringa sottostante da tutte le stringhe attive");
@@ -85,6 +86,7 @@ StringMain::StringMain(QWidget *parent) :
 
     QLineEdit* opLine = new QLineEdit(this);
     opInput = MyString();
+    opLine->setToolTip("Se un'operazione richiede l'utilizzo di un'altra stringa per\nfunzionare (Add, Remove, Split) essa va inserita qui");
     connect(opLine,SIGNAL(textEdited(QString)),this,SLOT(editOpInput(QString)));
     opLine->setStyleSheet("QLineEdit{height: 30px; width: 234px; border: none; selection-background-color:darkgray; background-color: #c6ffac; margin-top:5px}");
     layout->addWidget(opLine,0);//,Qt::AlignCenter | Qt::AlignHCenter);
