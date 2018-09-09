@@ -57,7 +57,7 @@ bool Grafico::search(const Punto* p) const
 }
 
 bool Grafico::insert(const Punto* p)
-{    
+{
     if(!search(p))
     {
         auto it = idp->begin();
@@ -93,7 +93,7 @@ long double Grafico::getAreaRet(const Punto * p1, const Punto * p2)
 }
 
 long double Grafico::getPartialArea(const Punto * p1, const Punto * p2)
-{    
+{
     double partArea = 0;
     if(p1->getY() == p2->getY())
         partArea += getAreaRet(p1,p2);
@@ -104,7 +104,7 @@ long double Grafico::getPartialArea(const Punto * p1, const Punto * p2)
             p1Closer = p1->getY() > p2->getY();
         else
             p1Closer = p1->getY() < p2->getY();
-        
+
         if (p1Closer)
             partArea += getAreaRet(p1,new Punto(p2->getX(), p1->getY()));
         else
