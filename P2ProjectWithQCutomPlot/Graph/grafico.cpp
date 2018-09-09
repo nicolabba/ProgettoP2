@@ -1,8 +1,6 @@
 #include "grafico.h"
 #include <algorithm>
 
-//MEMO: ricorda di cambiare idp con pointCollection
-
 Grafico::Grafico() : idp(new list<Punto*>())
 {
 
