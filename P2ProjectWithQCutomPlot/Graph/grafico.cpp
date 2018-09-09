@@ -100,7 +100,7 @@ long double Grafico::getPartialArea(const Punto * p1, const Punto * p2)
     else
     {
         bool p1Closer;
-        if(p1->getY < 0 || p2->getY < 0)
+        if(p1->getY() < 0 || p2->getY() < 0)
             p1Closer = p1->getY() > p2->getY();
         else
             p1Closer = p1->getY() < p2->getY();
