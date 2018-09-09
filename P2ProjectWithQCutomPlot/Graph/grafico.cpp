@@ -89,15 +89,25 @@ long double Grafico::getAreaTri(const Punto * p1, const Punto * p2)
 
 long double Grafico::getAreaRet(const Punto * p1, const Punto * p2)
 {
-
-    return abs(p2->getX() - p1->getX()) * abs(p2->getY());
+    if(p1->getY() == p2->getY())
+        return abs(p2->getX() - p1->getX()) * abs(p2->getY());
+    return -1;
 }
 
 long double Grafico::getPartialArea(const Punto * p1, const Punto * p2)
 {    
+    double partArea = 0;
     if(p1->getY() == p2->getY())
-        return getAreaRet(p1,p2);
-    return getAreaTri(p1,p2);
+        partArea += getAreaRet(p1,p2);
+    else
+    {
+        if (p1->getY() < p2->getY())
+            partArea += getAreaRet(p1,new Punto(p2->getX(), p1->getY()));
+        else
+            partArea += getAreaRet(new Punto(p1->getX(),p2->getY()),p2);
+        partArea += getAreaTri(p1,p2);
+    }
+    return partArea;
 }
 
 long double Grafico::getArea() const
