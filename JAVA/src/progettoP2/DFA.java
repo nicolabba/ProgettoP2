@@ -1,4 +1,3 @@
-package progettoP2;
 
 public class DFA  extends FA{
 	private String alfabeto;

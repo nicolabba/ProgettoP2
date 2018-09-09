@@ -1,4 +1,4 @@
-package progettoP2;
+
 import static java.lang.Math.*;
 
 public class Punto {
