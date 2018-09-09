@@ -47,6 +47,7 @@ GraphMain::GraphMain(QWidget *parent) : QWidget(parent)
 
     QHBoxLayout *dataLay = new QHBoxLayout(/*dataFrame*/);
     twTopData->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    twTopData->horizontalHeader()->setSectionsClickable(false);
     twTopData->verticalHeader()->setVisible(false);
     twTopData->setSelectionMode(QAbstractItemView::NoSelection);
     twTopData->setMaximumHeight(twTopData->verticalHeader()->height()*3 + twTopData->horizontalHeader()->height());
@@ -68,7 +69,7 @@ GraphMain::GraphMain(QWidget *parent) : QWidget(parent)
     chart->graph(0)->setBrush(QBrush(QRgb(0xa6ff8c)));
     chart->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
-    refreshGraph();
+    //refreshGraph();
     twPoints->verticalHeader()->setVisible(false);
     twPoints->horizontalHeader()->setSectionsClickable(false);
     twPoints->setEditTriggers(QTableView::NoEditTriggers);
@@ -99,7 +100,7 @@ GraphMain::~GraphMain()
 void GraphMain::qtbaddClick()
 {
     double nx = lineX->text().toDouble(), ny = lineY->text().toDouble();
-    if(g->insert(Punto(nx,ny))){
+    if(g->insert(new Punto(nx,ny))){
         dynamic_cast<QStandardItemModel*>(twPoints->model())->
                 appendRow(QList<QStandardItem*>{
                               new QStandardItem(QString::fromStdString(std::to_string(nx))),
@@ -122,49 +123,54 @@ void GraphMain::qtbaddClick()
 
 void GraphMain::refreshGraph()
 {
-    list<Punto>* l = g->clone();
+    list<Punto*>* l = g->clone();
     QVector<double> x(l->size()), y(l->size());
-    list<Punto>::iterator it = l->begin();
-    int index = 0;
+    if(l->size() != 0){
+        list<Punto*>::iterator it = l->begin();
+        int index = 0;
 
-    while(it != l->end())
-    {
-        x[index] = it->getX();
-        y[index] = it->getY();
-        it++;
-        index++;
+        while(it != l->end())
+        {
+            x[index] = (*it)->getX();
+            y[index] = (*it)->getY();
+            it++;
+            index++;
+        }
+        double maxx = g->getMaxX() + 5 ;
+        double minx = g->getMinX() - 5;
+        double maxy = g->getMaxY() + 5;
+        double miny = g->getMin()->getY() -5;
+        chart->xAxis->setRange(minx, maxx);
+        chart->yAxis->setRange(miny, maxy);
     }
     chart->graph(0)->setData(x,y);
-    double maxx = g->getMaxX() + 5 ;
-    double minx = g->getMinX() - 5;
-    double maxy = g->getMaxY() + 5;
-    double miny = g->getMin()->getY() -5;
-    chart->xAxis->setRange(minx, maxx);
-    chart->yAxis->setRange(miny, maxy);
     chart->replot();
 }
 
 void GraphMain::refreshTopTable()
 {
-    std::string result = std::to_string(g->getArea());
-    QStandardItemModel *model = new QStandardItemModel(1,4);
-    model->setHorizontalHeaderLabels(QStringList{"area","length","max","min"});
-    QStandardItem *item = new QStandardItem(QString::fromStdString(result));
-    model->setItem(0,0,item);
-    result = std::to_string(g->getLenght());
-    model->setItem(0,1,new QStandardItem(QString::fromStdString(result)));
-    Punto* p = g->getMax();
-    result = std::to_string(p->getX()).append(" , ").append(std::to_string(p->getY()));
-    model->setItem(0,2,new QStandardItem(QString::fromStdString(result)));
-    p = g->getMin();
-    result = std::to_string(p->getX()).append(" , ").append(std::to_string(p->getY()));
-    model->setItem(0,3,new QStandardItem(QString::fromStdString(result)));
-    twTopData->setModel(model);
+    if(g->size() != 0){
+        std::string result = std::to_string(g->getArea());
+        QStandardItemModel *model = new QStandardItemModel(1,4);
+        model->setHorizontalHeaderLabels(QStringList{"area","length","max","min"});
+        QStandardItem *item = new QStandardItem(QString::fromStdString(result));
+        model->setItem(0,0,item);
+        result = std::to_string(g->getLenght());
+        model->setItem(0,1,new QStandardItem(QString::fromStdString(result)));
+        Punto* p = g->getMax();
+        result = std::to_string(p->getX()).append(" , ").append(std::to_string(p->getY()));
+        model->setItem(0,2,new QStandardItem(QString::fromStdString(result)));
+        p = g->getMin();
+        result = std::to_string(p->getX()).append(" , ").append(std::to_string(p->getY()));
+        model->setItem(0,3,new QStandardItem(QString::fromStdString(result)));
+        twTopData->setModel(model);
+    }
     twTopData->setRowHeight(0,40);
     twTopData->setColumnWidth(0, (this->width()-20)/4);
     twTopData->setColumnWidth(1, (this->width()-20)/4);
     twTopData->setColumnWidth(2, (this->width()-20)/4);
     twTopData->setColumnWidth(3, (this->width()-20)/4);
+
 }
 
 void GraphMain::resizeEvent(QResizeEvent *event)
@@ -201,7 +207,7 @@ void GraphMain::btModifica(){
     auto my = twPoints->model()->data(index2).toString();
     lineX->setText(mx);
     lineY->setText(my);
-    g->remove(Punto(mx.toDouble(), my.toDouble()));
+    g->remove(new Punto(mx.toDouble(), my.toDouble()));
     twPoints->model()->removeRow(r);
     refreshGraph();
     refreshTopTable();
@@ -213,7 +219,7 @@ void GraphMain::btElimina(){
     QModelIndex index2 = twPoints->model()->index(r, 1, QModelIndex());
     auto mx = twPoints->model()->data(index1).toString().toDouble();
     auto my = twPoints->model()->data(index2).toString().toDouble();
-    g->remove(Punto(mx,my));
+    g->remove(new Punto(mx,my));
     twPoints->model()->removeRow(r);
     refreshGraph();
     refreshTopTable();
