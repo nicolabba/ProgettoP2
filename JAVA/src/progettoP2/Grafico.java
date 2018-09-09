@@ -1,4 +1,3 @@
-package progettoP2;
 
 import java.util.ArrayList;
 
@@ -6,18 +5,35 @@ public class Grafico {
 	private ArrayList<Punto> idp;
 	
 	private static double getPartialArea(final Punto p1, final Punto p2){
-		if(p1.getY() == p2.getY())
-	        return getAreaRet(p1,p2);
-	    return getAreaTri(p1,p2);
+		    double partArea = 0;
+		    if(p1.getY() == p2.getY())
+		        partArea += getAreaRet(p1,p2);
+		    else
+		    {
+		        Boolean p1Closer;
+		        if(p1.getY() < 0 || p2.getY() < 0)
+		            p1Closer = p1.getY() > p2.getY();
+		        else
+		            p1Closer = p1.getY() < p2.getY();
+
+		        if (p1Closer)
+		            partArea += getAreaRet(p1,new Punto(p2.getX(), p1.getY()));
+		        else
+		            partArea += getAreaRet(new Punto(p1.getX(),p2.getY()),p2);
+		        partArea += getAreaTri(p1,p2);
+		    }
+		    return partArea;
 	}
     
 	private static double getAreaTri(final Punto p1, final Punto p2){
 		 Punto p3 = p1.getY()<p2.getY()? new Punto(p1.getX(),p2.getY()) : new Punto(p2.getX(),p1.getY());
 		 return (p3.getDistance(p1) * p3.getDistance(p2))/2;
-    }
+    	}
     
 	private static double getAreaRet(final Punto p1, final Punto p2){
-		return Math.abs(p2.getX() - p1.getX()) * Math.abs(p2.getY());
+		if(p1.getY() == p2.getY())
+	        return Math.abs(p2.getX() - p1.getX()) * Math.abs(p2.getY());
+	    return -1;
     }
 
     public Grafico(){
