@@ -101,7 +101,13 @@ long double Grafico::getPartialArea(const Punto * p1, const Punto * p2)
         partArea += getAreaRet(p1,p2);
     else
     {
-        if (p1->getY() < p2->getY())
+        bool p1Closer;
+        if(p1.getY < 0 || p2.getY < 0)
+            p1Closet = p1->getY() > p2->getY();
+        else
+            p1Closer = p1->getY() < p2->getY();
+        
+        if (p1Closer)
             partArea += getAreaRet(p1,new Punto(p2->getX(), p1->getY()));
         else
             partArea += getAreaRet(new Punto(p1->getX(),p2->getY()),p2);
